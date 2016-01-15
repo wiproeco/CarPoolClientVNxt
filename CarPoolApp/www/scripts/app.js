@@ -85,8 +85,7 @@ function navigationLinks($scope, $http, $window, Serviceurl, $location) {
     }
 }
 
-function PushNotifications(notificationurl, $rootScope) {
-    //var notificationurl = "http://wiprocarpool.azurewebsites.net/";
+function PushNotifications(notificationurl, $rootScope) {    
     var isowner = window.localStorage.getItem("isowner");
     var userId = window.localStorage.getItem("userid");
     var todayDate = new Date();

@@ -53,13 +53,15 @@
     };
     var nearVehicles = [];
     var rideObject = null;
-    var carOwnerId = null;   
+    var carOwnerId = null;
+    var serviceurl = "http://wiprocarpool.azurewebsites.net";
+
 
     global.intilize = function () {
-        
+
         getLocation();
     }
-    
+
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
@@ -102,9 +104,7 @@
                     $.ajax({
                         type: "GET",
                         contentType: "application/json",
-                        url: "http://wiprocarpool.azurewebsites.net/searchrides/" + searchLocation.vicinity,
-                        //url: "http://carpooltestapp.azurewebsites.net/searchrides/" + searchLocation.vicinity,
-                        //data: JSON.stringify(service),
+                        url: serviceurl + "/searchrides/" + searchLocation.vicinity,
                         dataType: "json",
                         success: function (data) {
                             $(data).each(function (index, obj) {
@@ -130,7 +130,7 @@
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
-                        url: "http://wiprocarpool.azurewebsites.net/joinride/",
+                        url: serviceurl + "/joinride/",
                         data: JSON.stringify({ carownerId: carOwnerId, userId: localStorage.getItem("userid"), rideid: rideObject.rideid, boardingid: $("#ddlPickuppoints").val(), reqforcurrgeolocn: reqforcurrgeolocnvalue }),
                         dataType: "json",
                         success: function (data) {
@@ -161,14 +161,14 @@
                     window.location.href = 'index.html';
                 });
 
-            }, function (error) { alert("enable location in your mobile"); }, { timeout:1000, enableHighAccuracy: true, maximumAge: 90000 });
+            }, function (error) { alert("enable location in your mobile"); }, { timeout: 1000, enableHighAccuracy: true, maximumAge: 90000 });
         } else {
             alert("Geolocation is not supported by this browser.");
         }
     }
 
     function showPosition() {
-        
+
     }
 
     function addMarker(latlng, map1, docId) {
@@ -179,24 +179,22 @@
             //title: docId
         });
         marker.setTitle(docId);
-        marker.addListener('click', function () {            
+        marker.addListener('click', function () {
             var position = marker.getPosition();
             var docId = marker.getTitle();
             carOwnerId = docId.split("/")[0];
-            
+
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
-                url: "http://wiprocarpool.azurewebsites.net/getridedetails/" + docId,
-                //url: "http://carpooltestapp.azurewebsites.net/getcarowner/" + docId,
-                //data: JSON.stringify(service),
+                url: serviceurl + "/getridedetails/" + docId,
                 dataType: "json",
                 success: function (response) {
-                    
+
                     $("#ddlPickuppoints").html("");
                     var data = response[0];
                     rideObject = response[0];
-                    $("#carmodal").modal("toggle");                    
+                    $("#carmodal").modal("toggle");
                     $("#carOwner").text(response[0].userName);
                     $("#carNumber").text(response[0].carNo);
                     $("#carSeatsCount").text(response[0].seatsavailable);
@@ -206,10 +204,10 @@
                         var option = $("<option></option>");
                         option.attr("value", obj.boardingid).text(obj.address);
                         $("#ddlPickuppoints").append(option);
-                    });                                       
+                    });
                 }
             });
-            
+
         });
         markers.push(marker);
     }

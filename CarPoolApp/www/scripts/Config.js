@@ -1,1 +1,1 @@
-﻿app.constant('Serviceurl', 'http://localhost:1513');
+﻿app.constant('Serviceurl', 'http://wiprocarpool.azurewebsites.net');
