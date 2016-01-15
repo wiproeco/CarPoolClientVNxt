@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline'; style-src 'self' 'unsafe-inline';script-src 'self' https://ssl.gstatic.com 'unsafe-inline' 'self' https://*.googleapis.com 'unsafe-eval'; img-src *; font-src *; media-src *">-->
+    <!--<meta http-equiv="Content-Security-Policy" content="'unsafe-inline' *">--> 
+    <meta http-equiv="Content-Security-Policy" content="default-src 'unsafe-eval' *; style-src 'unsafe-inline' *; img-src * data:">
+    <title>Wipro Car Pool App</title>
+
+    <!-- CarPoolApp references -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">    
+    <link rel="stylesheet" href="css/index.css"> 
+    <style>
+        .form-bottom form .input-error {
+            border-color: #de615e;
+        }
+    </style>  
+</head>
+<body ng-app="myApp" ng-controller="userCtrl">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    <div><i class="fa fa-car fa-2x"></i>&nbsp;Wipro Carpool App!</div>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div style="display:table-cell">
+                        <h3 style="display:table-cell" class="panel-title">Login &nbsp;</h3>
+                    </div>
+                    <div style="display:table-cell">
+                        <div id="Loading" style="display:none;"><img src="./images/spinner.gif" /></div>
+                    </div>
+
+                </div>
+                <div class="panel-body">
+                    <div id="errordiv" class="row" ng-if="errormsg">
+                        <div class="col-lg-12">
+                            <div id="errormsg" class="alert alert-danger">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="alert alert-danger" ng-if="authenticated">
+                                Login failed.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <form role="form" class="login-form">
+                            <div class="form-group">
+                                <label class="sr-only" for="form-username">Username</label>
+                                <input type="text" name="form-username" ng-model="txtEmail" placeholder="Email Id" ng-blur="checkEmail(txtEmail)" class="form-username form-control" id="form-username">
+                                <span ng-if="!validEmail">Please enter valid Email Id.</span>     
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="form-password">Password</label>
+                                <input type="password" name="form-password" ng-model="txtPassword" placeholder="Password" class="form-password form-control" id="form-password">
+                            </div>
+                            <div class="form-group">
+                                <label class="checkbox-inline" for="form-isowner">
+                                    <input type="checkbox" id="loginasowner" ng-model="Owner" ng-change="change(Owner)" name="loginasowner" />Login as owner
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="signin" ng-click="login()">Sign In!</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-footer"><a href="UserRegistration.html"><b>Not yet a member? Sign Up!</b></a></div>
+
+            </div>
+        </div>
+       
+    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted"> Powered By - Wipro Technologies Ltd.</p>
+        </div>
+    </footer>
+
+    <!-- Cordova reference, this is added to your app when it's built. -->
+    <script src="cordova.js"></script>
+    <script src="scripts/platformOverrides.js"></script>
+    <script src="scripts/jquery-1.11.1.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
+    <script src="scripts/jquery.backstretch.min.js"></script>
+    <script src="scripts/scripts.js"></script>
+    <!--<script src="scripts/angular.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
+    <script src="scripts/NotificationClientService.js"></script>
+    <!--<script src="scripts/Config.js"></script>-->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/Config.js"></script>
+    <script src="./scripts/common.js"></script>
+    <script src="scripts/User.js"></script>
+    <script src="scripts/Error.js"></script>
+</body>
+</html>
