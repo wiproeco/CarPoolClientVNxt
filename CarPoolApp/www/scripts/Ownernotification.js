@@ -8,7 +8,7 @@
         type: 'Diagnostic'
     }
     document.getElementById("Loading").style.display = "block";
-    navigationLinks($scope, $http, $window);
+    //navigationLinks($scope, $http, $window);
     $scope.notificationdata = "";
     var userId = window.localStorage.getItem("userid");
     $scope.userName = localStorage.getItem("username");
@@ -52,7 +52,7 @@
             }
         });
     }
-    $scope.updateRideNotification = function (ownerid, rideid, passengerid, bookingstatus) {
+    $scope.updateRideNotification = function (ownerid, rideid, passengerid, bookingstatus,$location) {
         document.getElementById("Loading").style.display = "block";
 
         var userreqforcurrgeolocnvalue = "";
@@ -74,7 +74,7 @@
         try {
             res.success(function (data, status, headers, config) {
                 $scope.notificationdata = "";
-                window.location.href = 'ownernotification.html';
+                $location.path('ownernotification.html');                
                 $scope.iserror = true;
                 $scope.success = true;
                 document.getElementById("Loading").style.display = "none";

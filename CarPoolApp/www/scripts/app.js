@@ -28,6 +28,10 @@ app.config(['$routeProvider',
             templateUrl: 'views/Ownerrides.html',
             controller: 'ownerridesCtrl'
         }).
+        when('/ridedetails', {
+               templateUrl: 'views/ridedetails.html',
+               controller: 'myRideDetailsCtrl'
+        }).
         otherwise(
         {
             templateUrl: 'views/NewDashboard.html',
@@ -43,7 +47,8 @@ app.config(['$routeProvider',
 app.controller('homecontroller', ['$scope', '$http', '$window', 'Serviceurl', '$location', '$rootScope', 'userfactory', function ($scope, $http, $window, Serviceurl, $location, $rootScope, userfactory) {
     navigationLinks($scope, $http, $window, Serviceurl, $location);
     $rootScope.IsOwner = window.localStorage.getItem("isowner"); // to store usertype
-    $rootScope.IsError = false; // this is used to show and hide the error divs
+    $rootScope.IsError = false;
+    $rootScope.userName = window.localStorage.getItem("username");// this is used to show and hide the error divs
 }]);
 
 //function homecontroller($scope, $http, $window, Serviceurl, $location, $rootscope) {
@@ -53,8 +58,8 @@ app.controller('homecontroller', ['$scope', '$http', '$window', 'Serviceurl', '$
 
 function navigationLinks($scope, $http, $window, Serviceurl, $location) {
 
-    $scope.MyDashboard = function () {
-        window.location.href = "NewDashboard.html";
+    $scope.MyDashboard = function () {        
+        $location.path("NewDashboard.html");
     }
 
     $scope.MyNotifications = function () {
@@ -69,14 +74,12 @@ function navigationLinks($scope, $http, $window, Serviceurl, $location) {
         $location.path(notificationurl);
     }
 
-    $scope.ShareRide = function () {
-
-        window.location.href = "addmarker.html";
+    $scope.ShareRide = function () {        
+        $location.path("addmarker.html");
     }
 
     $scope.MyRides = function () {
-
-        window.location.href = "myrides.html";
+        $location.path("/ownerrides");
     }
 
     $scope.logOut = function () {

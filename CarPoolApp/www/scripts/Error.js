@@ -3,7 +3,7 @@
 
 var Errorlog = function ($http, request, isrender) {
 
-    $http.post("http://wiprocarpool.azurewebsites.net/getLoghandler/", request)
+    $http.post("http://carpoolwipro.azurewebsites.net/getLoghandler/", request)
             .success(function (res) {
                 console.log(res);
                 if (isrender == true) {

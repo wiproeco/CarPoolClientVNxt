@@ -54,7 +54,7 @@
     var nearVehicles = [];
     var rideObject = null;
     var carOwnerId = null;
-    var serviceurl = "http://wiprocarpool.azurewebsites.net";
+    var serviceurl = "http://carpoolwipro.azurewebsites.net";
 
 
     global.intilize = function () {
@@ -153,7 +153,8 @@
                     else
                         notificationurl = "usernotification.html";
 
-                    window.location.href = notificationurl;
+                    $location.path(notificationurl);
+                    
                 });
 
                 $("#lnkLogOut").click(function () {

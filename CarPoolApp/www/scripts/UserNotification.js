@@ -9,7 +9,7 @@
         type: 'Diagnostic'
     }
     document.getElementById("Loading").style.display = "block";
-    navigationLinks($scope, $http, $window);
+    //navigationLinks($scope, $http, $window);
     $scope.notificationdata = "";
     var userId = window.localStorage.getItem("userid");
     $scope.userName = localStorage.getItem("username");

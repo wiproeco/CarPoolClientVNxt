@@ -89,7 +89,7 @@
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
-                url: "http://wiprocarpool.azurewebsites.net/getuserdetails/" + ownerId,
+                url: "http://carpoolwipro.azurewebsites.net/getuserdetails/" + ownerId,
                 dataType: "json",
                 success: function (data) {
                     //currentRideObject = data[0];
@@ -147,7 +147,7 @@
             else
                 notificationurl = "usernotification.html";
 
-            window.location.href = notificationurl;
+            $location.path(notificationurl);            
         });
 
         $("#lnkLogOut").click(function () {

@@ -11,7 +11,7 @@ app.controller('ownerridesCtrl', function ($scope, $http, $window, $filter, Serv
         type: 'Diagnostic'
     }
     document.getElementById("Loading").style.display = "block";
-    navigationLinks($scope, $http, $window);
+    //navigationLinks($scope, $http, $window);
 
     $scope.rideId = "";
     $scope.rides = [];
@@ -59,9 +59,13 @@ app.controller('ownerridesCtrl', function ($scope, $http, $window, $filter, Serv
 
 function getAllRideDetails($scope, $http, userid, Serviceurl) {
     document.getElementById("Loading").style.display = "block";
-    $http.get(Serviceurl + "/getallridedetails/" + userid)
+    var currentdate = moment().format('MM-DD-YYYY');
+    $http.get(Serviceurl + "/getallridedetails/" + userid+ "/" + currentdate)
+   // $http.get("http://localhost:1513/getallridedetails/" + userid + "/" + currentdate)
     .success(function (response) {
-        $scope.rides = response[0].rides;
+        if (response.length > 0) {
+            $scope.rides = response[0].rides;
+        }
         document.getElementById("Loading").style.display = "none";
 
     })
@@ -70,62 +74,8 @@ function getAllRideDetails($scope, $http, userid, Serviceurl) {
         document.getElementById("Loading").style.display = "none";
     });
 }
-function navigationLinks($scope, $http, $window) {
 
-    var isowner = window.localStorage.getItem("isowner");
-
-    if (isowner == "true") {
-        $("#carownerShow").show();
-        $("#passangerShow").hide();
-        $("#carownerShow2").show();
-        $("#passangerShow2").hide();
-    }
-    else {
-        $("#passangerShow").show();
-        $("#carownerShow").hide();
-        $("#passangerShow2").show();
-        $("#carownerShow2").hide();
-    }
-
-    $scope.MyDashboard = function () {
-        //alert("kuhuh");
-        window.location.href = "NewDashboard.html";
-    }
-
-    $scope.MyNotifications = function () {
-
-        var isowner = window.localStorage.getItem("isowner");
-        var notificationurl = '';
-        if (isowner == "true")
-            notificationurl = "ownernotification.html";
-        else
-            notificationurl = "usernotification.html";
-
-        window.location.href = notificationurl;
-    }
-
-    $scope.ShareRide = function () {
-
-        window.location.href = "addmarker.html";
-    }
-
-    $scope.MyRides = function () {
-
-        window.location.href = "myrides.html";
-    }
-
-    $scope.JoinRide = function () {
-
-        window.location.href = "ride.html";
-    }
-
-    $scope.logOut = function () {
-        window.localStorage.setItem("userid", 0);
-        window.location.href = 'index.html';
-    }
-}
-
-app.controller('myRideDetailsCtrl', function ($scope, $http, $window, $filter, Serviceurl) {
+app.controller('myRideDetailsCtrl', function ($scope, $http, $window, $filter, Serviceurl,$location) {
     $("#errormsg").hide();
     $("#errordiv").hide();
     var logdetails = {
@@ -135,7 +85,7 @@ app.controller('myRideDetailsCtrl', function ($scope, $http, $window, $filter, S
         logTime: $filter('date')(new Date(), 'HH:mm'),
         type: 'Diagnostic'
     }
-    navigationLinks($scope, $http, $window);
+    //navigationLinks($scope, $http, $window);
     $scope.rideId = "";
     if (getUrlParameter('rideid') !== undefined) {
         $scope.rideId = getUrlParameter('rideid');
@@ -172,7 +122,8 @@ app.controller('myRideDetailsCtrl', function ($scope, $http, $window, $filter, S
                /* $scope.rides = response[0].rides;  */
                $scope.iserror = true;
                $scope.success = true;
-               window.location.href = 'myrides.html';
+               $location.path("/ownerrides");
+               //window.location.href = 'myrides.html';
            })
            .error(function (data, status) {
                //$scope.iserror = false;

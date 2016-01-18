@@ -83,7 +83,7 @@
             $.ajax({
                 type: "GET",
                 contentType: "application/json",
-                url: "http://wiprocarpool.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
+                url: "http://carpoolwipro.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
                 //url: "http://carpooltestapp.azurewebsites.net/updateroute",                
                 dataType: "json",
                 success: function (data) {
@@ -129,8 +129,8 @@
             addMarker(geoLocation, map);
             addMarker(endLocation, map);
         });
-        $("#btnSubmit").click(function () {
-            
+        $("#btnSubmit").click(function () {            
+           
             $(detailedWayPoints).each(function (index, waypoint) {
                 //var boardingpoint = { boardingid: null, address: null, lat: null, lng: null };
                 waypoint.boardingid = index + 1;                
@@ -163,10 +163,18 @@
                         
             //alert(JSON.stringify(ride));
 
+            var appElement = document.querySelector('[ng-app=myApp]');
+            var $scope = angular.element(appElement).scope();
+            $scope.$apply(function () {
+                
+            });
+
             if (rideId === undefined) {
-                window.location.href = "ridedetails.html";
+                //$location.path('ridedetails.html');
+                window.location.href = "Views/ridedetails.html";
             }
             else {
+                //$location.path("ridedetails.html?rideid=" + currentRideObject.rideid);
                 window.location.href = "ridedetails.html?rideid=" + currentRideObject.rideid;
             }
 
@@ -184,14 +192,14 @@
             else
                 notificationurl = "usernotification.html";
 
-            window.location.href = notificationurl;
+            $location.path(notificationurl);            
         });
 
         $("#lnkLogOut").click(function () {
             window.localStorage.setItem("userid", 0);
             window.location.href = 'index.html';
         });
-
+        
         google.maps.event.addListener(autocompleteStart, 'place_changed', function () {
             clearMarkers();
             clearWaypoints();
@@ -294,53 +302,7 @@
         waypoints = [];
         detailedWayPoints = [];
     }
-
-    //var rideObject = {
-    //    "rideid": "38cb05d9-a7f1-4914-be58-a416e73d30c8",
-    //    "startpoint": "Wipro Circle, ISB Rd, Financial District, Nanakram Guda, Hyderabad, Telangana 500032, India",
-    //    "startlat": 17.4258143,
-    //    "startlng": 78.34054739999999,
-    //    "endpoint": "Kukatpally, Hyderabad, Telangana, India",
-    //    "endlat": 17.4947934,
-    //    "endlng": 78.39964409999993,
-    //    "startdatetime": "2011-07-14 19:43:37 +0100",
-    //    "enddatetime": "2011-07-14 20:43:37 +0100",
-    //    "seatsavailable": "2",
-    //    "ridestatus": "open",
-    //    "isfavouiteride": true,
-    //    "boardingpoints": [
-    //      {
-    //          "boardingid": "1",
-    //          "address": "FCI Employees Cooperative Housing Society, Gachibowli, Hyderabad, Telangana 500032, India",
-    //          "lat": 17.445155632767804,
-    //          "lng": 78.35286140441895
-    //      },
-    //      {
-    //          "boardingid": "2",
-    //          "address": "Izzat Nagar, Kothaguda, Hyderabad, Telangana, India",
-    //          "lat": 17.469145728851085,
-    //          "lng": 78.38642120361328
-    //      },
-    //      {
-    //          "boardingid": "3",
-    //          "address": "KPHB Circle, K P H B Phase 3, Kukatpally, Hyderabad, Telangana 500085",
-    //          "lat": 17.484782622363976,
-    //          "lng": 78.39028358459473
-    //      }
-    //    ],
-    //    "passengers": [
-    //      {
-    //          "userid": "c3f821a6-3f4d-4472-2f01-6d4d8f7e9e19",
-    //          "boardingid": "2",
-    //          "Status": "accepted"
-    //      },
-    //      {
-    //          "userid": "53946907-3b48-6904-f599-db29de2e74e6",
-    //          "boardingid": "3",
-    //          "Status": "pending"
-    //      }
-    //    ]
-    //};
+       
 
     function getLocationByRideId(rideObject) {
 
