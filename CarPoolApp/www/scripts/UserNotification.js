@@ -1,4 +1,5 @@
 ﻿app.controller('usernotificationCtrl', function ($scope, $http, $window, $filter, Serviceurl) {
+    $("div.modal-backdrop").remove();
     $("#errormsg").hide();
     $("#errordiv").hide();
     var logdetails = {
@@ -13,9 +14,9 @@
     $scope.notificationdata = "";
     var userId = window.localStorage.getItem("userid");
     $scope.userName = localStorage.getItem("username");
-
+    var currentdate = moment().format('MM-DD-YYYY');
     try {
-        var url = Serviceurl + "/receivenotitifications/" + userId;
+        var url = Serviceurl + "/receivenotitifications/" + userId + "/" + currentdate;
         $http.get(url)
                 .success(function (response) {
 

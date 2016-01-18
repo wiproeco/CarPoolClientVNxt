@@ -1,8 +1,6 @@
 ﻿app.controller('newRideCtrl', function ($scope, $http, $window, $location) {
     $("#errormsg").hide();
     $("#errordiv").hide();
-    $scope.userName = localStorage.getItem("username");
-
     loadMapsApi();
 
     $("#btnRoute").click(function () {
@@ -40,14 +38,7 @@
         $(detailedWayPoints).each(function (index, waypoint) {            
             waypoint.boardingid = index + 1;
         });
-
-        //var locationObject = { startpoint: null, startlat: null, startlng: null, endpoint: null, endlng: null, endlat: null, seatsavailability: null };
-        //locationObject.startpoint = geoLocationName;
-        //locationObject.startlat = geoLocation.lat();
-        //locationObject.startlng = geoLocation.lng();
-        //locationObject.endpoint = $("#txtDestination").val();
-        //locationObject.endlat = endLocation.lat();
-        //locationObject.endlng = endLocation.lng();
+       
         ride.startlat = geoLocation.lat();
         ride.startlng = geoLocation.lng();
         ride.endlat = endLocation.lat();
@@ -69,7 +60,7 @@
         try {
             if (rideId === undefined) {
                 $location.path('/ridedetails');
-                if (!$scope.$$phase) $scope.$apply()                                
+                if (!$scope.$$phase) $scope.$apply();
             }
             else {
                 $location.path("ridedetails.html?rideid=" + currentRideObject.rideid);                
@@ -77,29 +68,6 @@
         } catch (e) {
 
         }
-
-
-
-    });
-
-    $("#lnkDashboard").click(function () {
-        window.location.href = "NewDashboard.html";
-    });
-
-    $("#lnkNotifications").click(function () {
-        var isowner = window.localStorage.getItem("isowner");
-        var notificationurl = '';
-        if (isowner == "true")
-            notificationurl = "ownernotification.html";
-        else
-            notificationurl = "usernotification.html";
-
-        $location.path(notificationurl);
-    });
-
-    $("#lnkLogOut").click(function () {
-        window.localStorage.setItem("userid", 0);
-        window.location.href = 'index.html';
     });
 });
 

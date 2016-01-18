@@ -32,6 +32,7 @@
     <script src="./scripts/NewRide.js"></script>
     <script src="./scripts/ownerrides.js"></script>
     <script src="./scripts/moment.min.js"></script>
+    <script src="./scripts/Joinride.js"></script>
     <!--<script src="./scripts/marker.js"></script>-->
 </head>
 <body ng-app="myApp">
@@ -58,13 +59,11 @@
                     <li class="divider"></li>
                     <li><a href="javascript:void(0);" ng-click="MyDashboard();">Dashboard</a></li>
                     <li><a href="javascript:void(0);" ng-click="MyNotifications()">Notifications</a></li>
+                    <li ng-if="$root.IsOwner=='true'">
+                        <a id="carownerShow2" href="javascript:void(0);" ng-click="MyRides()">My Rides</a>
+                    </li>
                     <li ng-if="$root.IsOwner=='false'">
-                        <div ng-if="$root.IsOwner=='true'">
-                            <a id="carownerShow2" href="javascript:void(0);" ng-click="MyRides()">My Rides</a>
-                        </div>
-                        <div ng-if="$root.IsOwner=='true'">
-                            <a id="passangerShow2" href="javascript:void(0);" ng-click="JoinRide()">Join Ride</a>
-                        </div>
+                        <a id="passangerShow2" href="javascript:void(0);" ng-click="JoinRide()">Join Ride</a>
                     </li>
                     <li><a href="#">Rides History</a></li>
                     <li><a href="#">Help</a></li>

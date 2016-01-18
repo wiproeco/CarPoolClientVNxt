@@ -82,6 +82,10 @@ function navigationLinks($scope, $http, $window, Serviceurl, $location) {
         $location.path("/ownerrides");
     }
 
+    $scope.JoinRide = function () {
+        $location.path("/Joinride");
+    }
+
     $scope.logOut = function () {
         window.localStorage.setItem("userid", 0);
         window.location.href = 'index.html';
@@ -95,7 +99,8 @@ function PushNotifications(notificationurl, $rootScope) {
     var date = todayDate.getFullYear() + "-" + (todayDate.getMonth() + 1) + "-" + todayDate.getDate();
 
     var totaltimeout = 5;
-    
+    var currentdate = moment().format('MM-DD-YYYY');
+
     if (isowner == "true") {
         var latitude = "";
         var longitude = "";
@@ -103,7 +108,7 @@ function PushNotifications(notificationurl, $rootScope) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 latitude = position.coords.latitude.toString();
                 longitude = position.coords.longitude.toString();
-                notificationurl = notificationurl + "/getnotitifications/" + userId + "/" + date.toString() + "/" + latitude + "/" + longitude;
+                notificationurl = notificationurl + "/getnotitifications/" + userId + "/" + currentdate+ "/" + latitude + "/" + longitude;
                 totaltimeout = 15;
                 $("#MyNotifications").css("color", "green");
                 NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
@@ -111,7 +116,7 @@ function PushNotifications(notificationurl, $rootScope) {
         }
     }
     else {
-        notificationurl = notificationurl + "/receivenotitifications/" + userId;
+        notificationurl = notificationurl + "/receivenotitifications/" + userId + "/" + currentdate;
         $("#MyNotifications").css("color", "green");
         NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
     }

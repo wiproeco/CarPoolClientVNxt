@@ -1,103 +1,83 @@
-﻿    
-    <div class="container-fluid" ng-controller="JoinrideCtrl">              
-        <div class="row">
-            <div id="errordiv" class="row">
-                <div class="col-lg-12">
-                    <div id="errormsg" class="alert alert-danger">
-                    </div>
+﻿
+<div class="container-fluid">
+    <div class="row">
+        <div id="errordiv" class="row">
+            <div class="col-lg-12">
+                <div id="errormsg" class="alert alert-danger">
                 </div>
-            </div>
-            <div class="wrapper">
-                <div id="map" data-tap-disabled="true"></div>
-                <div id="over_map">
-                    <input type="text" id="txtDestination" class="form-control"/>
-                    <div id="demo"></div>
-                </div>
-                <!--<div id="over_map_button">
-                    <input type="button" id="btnRide" class="btn btn-primary" style="width:100%;" value="Ride Now" data-toggle="modal" data-target="#carmodal" />
-                    
-                </div>-->
             </div>
         </div>
-        <div class="modal fade" id="carmodal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form class="form-horizontal" role="form">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title">Car Details</h4>
-                        </div>
-                        <div class="modal-body">
+        <div class="wrapper">
+            <div id="over_map">
+                <input type="text" id="txtDestination" class="form-control" />
+                <div id="demo"></div>
+            </div>
+            <div id="map" data-tap-disabled="true"></div>
+        </div>
+    </div>
+    <div class="modal fade" id="carmodal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="form-horizontal" role="form">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Car Details</h4>
+                    </div>
+                    <div class="modal-body">
 
-                            <div class="form-group">
-                                <label class="control-label col-sm-4" for="email">Car Owner: </label>
-                                <div class="col-sm-8">
-                                    <span id="carOwner"></span>
-                                </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="email">Car Owner: </label>
+                            <div class="col-sm-8">
+                                <span id="carOwner"></span>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-4" for="pwd">Car Number:</label>
-                                <div class="col-sm-8">
-                                    <span id="carNumber"></span>
-                                </div>
-                            </div>      
-                            <div class="form-group">
-                                <label class="control-label col-sm-4" for="pwd">No. of seats available:</label>
-                                <div class="col-sm-8">
-                                    <span id="carSeatsCount"></span>
-                                </div>
-                            </div> 
-                            <div class="form-group">
-                                <label class="control-label col-sm-4" for="pwd">From:</label>
-                                <div class="col-sm-8">
-                                    <span id="carFrom"></span>
-                                </div>
-                            </div>    
-                            <div class="form-group">
-                                <label class="control-label col-sm-4" for="pwd">To:</label>
-                                <div class="col-sm-6">
-                                    <span id="carTo"></span>
-                                </div>
-                            </div>  
-                            <div class="form-group">
-                                <label class="control-label col-sm-4" for="pwd">Pick up points:</label>
-                                <div class="col-sm-6">
-                                    <select class="form-control" id="ddlPickuppoints" style="width:80%">                                        
-                                    </select>
-                                </div>
-                            </div>   
-                            <div class="form-group">
-                                <div class="col-sm-9">
-                                    <input type="checkbox" id="chkreqforcurrgeolocn" name="chkreqforcurrgeolocn">Request for current location
-                                </div>
-                            </div>                                             
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="btnJoinRide">Join Ride</button>                           
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="pwd">Car Number:</label>
+                            <div class="col-sm-8">
+                                <span id="carNumber"></span>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="pwd">No. of seats available:</label>
+                            <div class="col-sm-8">
+                                <span id="carSeatsCount"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="pwd">From:</label>
+                            <div class="col-sm-8">
+                                <span id="carFrom"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="pwd">To:</label>
+                            <div class="col-sm-6">
+                                <span id="carTo"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-4" for="pwd">Pick up points:</label>
+                            <div class="col-sm-6">
+                                <select class="form-control" id="ddlPickuppoints" style="width:80%"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <input type="checkbox" id="chkreqforcurrgeolocn" name="chkreqforcurrgeolocn">Request for current location
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btnJoinRide">Join Ride</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 <style>
     #wrapper {
         position: relative;
-    }
-
-    #over_map {
-        position: absolute;
-        top: 9%;
-        z-index: 99;
-        width: 99%;
-    }
-
-    #over_map_button {
-        position: absolute;
-        bottom: 10px;
-        left: 10%;
-        z-index: 99;
-        width: 97%;
     }
 
     .menuLink {
@@ -111,5 +91,5 @@
         }
 </style>
 
-<script src="./scripts/ride.js"></script>
-   
+
+
