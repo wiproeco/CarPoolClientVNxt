@@ -32,6 +32,10 @@ app.config(['$routeProvider',
                templateUrl: 'views/ridedetails.html',
                controller: 'myRideDetailsCtrl'
         }).
+        when('/updateprofiletoowner', {
+            templateUrl: 'views/UpdateProfiletoOwner.html',
+            controller: 'updateProfiletoOwnerCtrl'
+        }).
         otherwise(
         {
             templateUrl: 'views/NewDashboard.html',
@@ -56,9 +60,13 @@ app.controller('homecontroller', ['$scope', '$http', '$window', 'Serviceurl', '$
 
 //};
 
+
+
+
 function navigationLinks($scope, $http, $window, Serviceurl, $location) {
 
-    $scope.MyDashboard = function () {        
+    $scope.MyDashboard = function () {
+
         $location.path("NewDashboard.html");
     }
 
@@ -141,6 +149,29 @@ function NoticationCallback(data) {
         }
     }
 }
+
+app.controller('updateProfiletoOwnerCtrl', function ($scope, $http, $window, $filter, $location, Serviceurl) {
+    $scope.processing = false;
+    $scope.seats = 1;
+
+    $scope.Cancel = function () {
+        alert("test1");
+        $location.path("#");
+    }
+
+    $scope.Upgrade = function () {
+        // $location.path("NewDashboard.html");
+        //alert("test");
+        window.localStorage.setItem("isowner", true);
+        $('#myModal').modal('show');
+       // window.location.href = 'home.html';
+
+    }
+
+    $scope.Success = function () {
+         window.location.href = 'home.html';
+    }
+});
 
 
 

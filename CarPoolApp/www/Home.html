@@ -54,30 +54,28 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2" ng-controller="homecontroller">
                 <ul class="nav navbar-nav">
                     <li style="background-color:white;line-height:50px;">
-                        <span style="padding-left:15px;"><b>Welcome {{ $root.userName }}!</b></span> <i class="fa fa-gear fa-fw"></i>
+                        <span style="padding-left:15px;"><b>Welcome {{ $root.userName }}!</b></span> <!--<i class="fa fa-gear fa-fw"></i>-->
                     </li>
                     <li class="divider"></li>
-                    <li><a href="javascript:void(0);" ng-click="MyDashboard();">Dashboard</a></li>
-                    <li><a href="javascript:void(0);" ng-click="MyNotifications()">Notifications</a></li>
+                    <li><a href="javascript:void(0);" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" ng-click="MyDashboard();">Dashboard</a></li>
+                    <li><a href="javascript:void(0);" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" ng-click="MyNotifications()">Notifications</a></li>
                     <li ng-if="$root.IsOwner=='true'">
-                        <a id="carownerShow2" href="javascript:void(0);" ng-click="MyRides()">My Rides</a>
+                        <a id="carownerShow2" href="javascript:void(0);" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" ng-click="MyRides()">My Rides</a>
                     </li>
                     <li ng-if="$root.IsOwner=='false'">
-                        <a id="passangerShow2" href="javascript:void(0);" ng-click="JoinRide()">Join Ride</a>
+                        <a id="passangerShow2" href="javascript:void(0);" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" ng-click="JoinRide()">Join Ride</a>
                     </li>
-                    <li><a href="#">Rides History</a></li>
-                    <li><a href="#">Help</a></li>
-                    <li><a href="#" ng-click="logOut()">Log Out</a></li>
+                    <li><a href="#" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">Rides History</a></li>
+                    <li><a href="#" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">Help</a></li>
+                    <li><a href="#" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2" ng-click="logOut()">Log Out</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container-fluid" id="ContainerForm">
-        <div id="divview" ng-view></div>
-    </div>
+    <div id="divview" ng-view></div>
     <footer id="footer">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12 footer">
                 Powered By - Wipro Technologies Ltd.
             </div>
         </div>

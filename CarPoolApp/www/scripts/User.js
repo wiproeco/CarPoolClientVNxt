@@ -13,9 +13,9 @@
 
 app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl', 'userfactory', '$rootScope', function ($scope, $http, $window, $filter, Serviceurl, userfactory, $rootScope) {
     $scope.authenticated = false;
-    $scope.errormsg = false;
     $scope.iserror = false;
     $scope.success = false;
+    $scope.errormsg = false;
     //$("#errormsg").hide();
     //$("#errordiv").hide();
     var logdetails = {
@@ -29,6 +29,7 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
     $scope.login = function () {
         //$("#errordiv").hide();
         //$("#errormsg").hide();
+       
         var emailReg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if ($scope.txtEmail != undefined) {
             if (emailReg.test($scope.txtEmail)) {
@@ -45,7 +46,7 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
                                 var userid = result[0].id;
                                 var isowner = result[0].isowner;
                                 var username = result[0].userName;
-
+                                
                                 if (isowner) {
                                     isowner = $scope.edit;
                                 }
@@ -54,7 +55,9 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
                                 window.localStorage.setItem("userid", userid);
                                 window.localStorage.setItem("isowner", isowner);
                                 window.localStorage.setItem("username", username);
+                                window.localStorage.setItem("isownerSelection", $scope.edit);
                                 window.location.href = 'Home.html';
+                               
                                 numofLoginAttempts = 0;
                             }
                             else {

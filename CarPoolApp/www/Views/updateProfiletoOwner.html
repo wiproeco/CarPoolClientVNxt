@@ -1,0 +1,78 @@
+﻿<div class="container-fluid" ng-controller="updateProfiletoOwnerCtrl">
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div style="display:table-cell">
+                    <h3 style="display:table-cell" class="panel-title">Upgrade Profile to Owner &nbsp;</h3>
+                </div>
+                <div style="display:table-cell" ng-show="processing">
+                    <div><img src="./images/spinner.gif" /></div>
+                </div>
+
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="errormsg" class="alert alert-info">
+                            <a href="#">
+                                <span class="glyphicon glyphicon-info-sign"></span>
+                            </a> Please provide your car details for being an owner or cancel to being user.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label class="checkbox-inline" for="form-isowner">
+                                <input type="checkbox" checked="checked" disabled="disabled" id="form-isowner" name="form-isowner" />Is Car Owner
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <!--<h4>Car Details</h4>-->
+                        <div class="form-group">
+                            <label for="form-carnumber">Car Number</label>
+                            <input type="text" name="form-carnumber"maxlength="12" placeholder="Car Number" ng-model="carno" class="form-carnumber form-control" id="form-carnumber">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="form-noOfseats">Seating Capacity</label>
+                            <select class="form-noOfseats form-control" id="form-noOfseats" name="form-noOfseats" ng-model="seats">
+                                <option selected="selected">1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" id="signin" ng-click="Upgrade()">Upgrade!</button>
+                    <button type="submit" class="btn btn-default" id="cancel" ng-click="Cancel()">Skip >></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                <h4 class="modal-title">Congratulations..</h4>
+            </div>
+            <div class="modal-body">
+                <p>You have successfully registred as Owner with CarPool. Click Ok to redirect to owner dashboard.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnOk" ng-click="Success()">Ok</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
