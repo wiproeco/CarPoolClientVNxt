@@ -81,19 +81,34 @@
 
             marker.setMap(map);
             service.pickuplocations.push(waypointObj);
-
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: "http://carpoolwipro.azurewebsites.net/updatelocation",
-                data: JSON.stringify(service),
-                dataType: "json",
-                success: function () {
-                    alert('pickpoint added into database');
+            try {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "http://carpoolwipro.azurewebsites.net/updatelocation",
+                    data: JSON.stringify(service),
+                    dataType: "json",
+                    success: function () {
+                        alert('pickpoint added into database');
+                    },
+                    error: function (data, status) {
+                        var logdetails = {
+                            userid: localStorage.getItem("userid"),
+                            logdescription: status
+                        }
+                        Errorlog($http, logdetails, true);
+                    }
+                });
+            } catch (e) {
+                var logdetails = {
+                    userid: localStorage.getItem("userid"),
+                    logdescription: e.message
                 }
-            });
-
+                Errorlog($http, logdetails, true);
+            }
         });
+
+
     }
 
     function onMapsApiLoaded() {
@@ -171,7 +186,7 @@
                     $("#ddlMarkup").append(option);
 
                 }
-               
+
             }
             else if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
                 setTimeout(function () {

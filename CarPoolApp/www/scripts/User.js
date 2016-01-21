@@ -20,10 +20,7 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
     //$("#errordiv").hide();
     var logdetails = {
         userid: "",
-        logdescription: "",
-        logDate: $filter('date')(new Date(), 'dd/MM/yyyy'),
-        logTime: $filter('date')(new Date(), 'HH:mm'),
-        type: 'Diagnostic'
+        logdescription: "",        
     }
     var numofLoginAttempts;
     $scope.login = function () {
@@ -35,6 +32,8 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
             if (emailReg.test($scope.txtEmail)) {
                 var email = $scope.txtEmail;
                 var pass = $scope.txtPassword;
+                var owner = $scope.Owner;
+                window.localStorage.setItem("loginAsOwnerOrNot", owner);
                 document.getElementById("Loading").style.display = "block";
                 if (email != "" && pass != "" && email != undefined && pass != undefined) {
                     try {
@@ -73,7 +72,7 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
                                     //$scope.authenticated = true;
                                     logdetails.userid = $scope.txtEmail;
                                     logdetails.logdescription = $scope.txtEmail + " login attempt failed more than 3 times....";
-                                    Errorlog($http, logdetails, false);
+                                    Errorlog($http,$scope, logdetails, false);
                                     numofLoginAttempts = 0;
                                 }
                             }
@@ -91,7 +90,7 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
                     catch (e) {
                         logdetails.userid = $scope.txtEmail;
                         logdetails.logdescription = e.message;
-                        Errorlog($http, logdetails);
+                        Errorlog($http, logdetails,true);
                     }
 
                 }

@@ -1,14 +1,11 @@
 ﻿
-app.controller('ownerridesCtrl', function ($scope, $http, $window, $filter, Serviceurl) {
-    $("#errormsg").hide();
-    $("#errordiv").hide();
+app.controller('ownerridesCtrl', function ($scope, $http, $window, Serviceurl) {
+    //$("#errormsg").hide();
+    //$("#errordiv").hide();
     $scope.error = false;
     var logdetails = {
         userID: "",
         logdescription: "",
-        logDate: $filter('date')(new Date(), 'dd/MM/yyyy'),
-        logTime: $filter('date')(new Date(), 'HH:mm'),
-        type: 'Diagnostic'
     }
     document.getElementById("Loading").style.display = "block";
     //navigationLinks($scope, $http, $window);
@@ -60,30 +57,42 @@ app.controller('ownerridesCtrl', function ($scope, $http, $window, $filter, Serv
 function getAllRideDetails($scope, $http, userid, Serviceurl) {
     document.getElementById("Loading").style.display = "block";
     var currentdate = moment().format('MM-DD-YYYY');
-    $http.get(Serviceurl + "/getallridedetails/" + userid+ "/" + currentdate)
-   // $http.get("http://localhost:1513/getallridedetails/" + userid + "/" + currentdate)
-    .success(function (response) {
-        if (response.length > 0) {
-            $scope.rides = response[0].rides;
-        }
-        document.getElementById("Loading").style.display = "none";
+    try {
+        $http.get(Serviceurl + "/getallridedetails/" + userid + "/" + currentdate)
 
-    })
-    .error(function (data, status) {
-        //alert('failed');
-        document.getElementById("Loading").style.display = "none";
-    });
+       // $http.get("http://localhost:1513/getallridedetails122/" + userid + "/" + currentdate)
+
+        .success(function (response) {
+            if (response.length > 0) {
+                $scope.rides = response[0].rides;
+            }
+            document.getElementById("Loading").style.display = "none";
+
+        })
+        .error(function (data, status) {
+            //alert('failed');
+            document.getElementById("Loading").style.display = "none";
+            var logdetails = {
+                userid: localStorage.getItem("userid"),
+                logdescription: status
+            }
+            Errorlog($http, logdetails, true);
+        });
+    } catch (e) {
+        var logdetails = {
+            userid: localStorage.getItem("userid"),
+            logdescription: e.message
+        }
+        Errorlog($http, logdetails, true);
+    }
 }
 
-app.controller('myRideDetailsCtrl', function ($scope, $http, $window, $filter, Serviceurl,$location) {
+app.controller('myRideDetailsCtrl', function ($scope, $http, $window, Serviceurl, $location) {
     $("#errormsg").hide();
     $("#errordiv").hide();
     var logdetails = {
         userID: "",
         logdescription: "",
-        logDate: $filter('date')(new Date(), 'dd/MM/yyyy'),
-        logTime: $filter('date')(new Date(), 'HH:mm'),
-        type: 'Diagnostic'
     }
     //navigationLinks($scope, $http, $window);
     $scope.rideId = "";

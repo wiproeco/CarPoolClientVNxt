@@ -53,7 +53,7 @@
     var directionsService;
     var rideId = null;
     var currentRideObject = null;
-    var ride = {        
+    var ride = {
         rideid: null,
         startpoint: null,
         startlat: null,
@@ -80,27 +80,42 @@
             getLocation();
         }
         else {
-            $.ajax({
-                type: "GET",
-                contentType: "application/json",
-                url: "http://carpoolwipro.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
-                //url: "http://carpooltestapp.azurewebsites.net/updateroute",                
-                dataType: "json",
-                success: function (data) {
-                    currentRideObject = data[0];
-                    getLocationByRideId(data[0]);
+            try {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json",
+                    url: "http://carpoolwipro.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
+                    //url: "http://carpooltestapp.azurewebsites.net/updateroute",                
+                    dataType: "json",
+                    success: function (data) {
+                        currentRideObject = data[0];
+                        getLocationByRideId(data[0]);
+                    },
+                    error: function (data, status) {
+                        var logdetails = {
+                            userid: localStorage.getItem("userid"),
+                            logdescription: status
+                        }
+                        Errorlog($http, logdetails, true);
+                    }
+                });
+            } catch (e) {
+                var logdetails = {
+                    userid: localStorage.getItem("userid"),
+                    logdescription: e.message
                 }
-            });
-            
+                Errorlog($http, logdetails, true);
+            }
+
         }
 
         directionsService = new google.maps.DirectionsService();
-        
+
 
         var autocompleteStart = new google.maps.places.Autocomplete(document.getElementById("txtDestination"));
-       
+
         $("#btnRoute").click(function () {
-            
+
             var mode = google.maps.DirectionsTravelMode.DRIVING;
             var request = {
                 origin: geoLocation,
@@ -117,7 +132,7 @@
                     directionsDisplay.setDirections(response);
                 }
             });
-           
+
         });
         $("#btnReset").click(function () {
             clearMarkers();
@@ -129,13 +144,13 @@
             addMarker(geoLocation, map);
             addMarker(endLocation, map);
         });
-        $("#btnSubmit").click(function () {            
-           
+        $("#btnSubmit").click(function () {
+
             $(detailedWayPoints).each(function (index, waypoint) {
                 //var boardingpoint = { boardingid: null, address: null, lat: null, lng: null };
-                waypoint.boardingid = index + 1;                
+                waypoint.boardingid = index + 1;
             });
-            
+
             //var locationObject = { startpoint: null, startlat: null, startlng: null, endpoint: null, endlng: null, endlat: null, seatsavailability: null };
             //locationObject.startpoint = geoLocationName;
             //locationObject.startlat = geoLocation.lat();
@@ -147,11 +162,11 @@
             ride.startlng = geoLocation.lng();
             ride.endlat = endLocation.lat();
             ride.endlng = endLocation.lng();
-            ride.boardingpoints = detailedWayPoints;            
+            ride.boardingpoints = detailedWayPoints;
 
             if (rideId === undefined) {
-                ride.startpoint = geoLocationName;              
-                ride.endpoint = $("#txtDestination").val();               
+                ride.startpoint = geoLocationName;
+                ride.endpoint = $("#txtDestination").val();
             }
             else {
                 ride.rideid = currentRideObject.rideid;
@@ -160,13 +175,13 @@
             }
 
             localStorage.setItem("currentRideObject", JSON.stringify(ride));
-                        
+
             //alert(JSON.stringify(ride));
 
             var appElement = document.querySelector('[ng-app=myApp]');
             var $scope = angular.element(appElement).scope();
             $scope.$apply(function () {
-                
+
             });
 
             if (rideId === undefined) {
@@ -192,21 +207,21 @@
             else
                 notificationurl = "usernotification.html";
 
-            $location.path(notificationurl);            
+            $location.path(notificationurl);
         });
 
         $("#lnkLogOut").click(function () {
             window.localStorage.setItem("userid", 0);
             window.location.href = 'index.html';
         });
-        
+
         google.maps.event.addListener(autocompleteStart, 'place_changed', function () {
             clearMarkers();
             clearWaypoints();
             var endPlace = autocompleteStart.getPlace();
             var Lat = endPlace.geometry.location.lat();
             var Long = endPlace.geometry.location.lng();
-            endLocation = new google.maps.LatLng(Lat, Long);           
+            endLocation = new google.maps.LatLng(Lat, Long);
 
             var latlngbounds = new google.maps.LatLngBounds();
 
@@ -240,7 +255,7 @@
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
-                
+
                 directionsDisplay = new google.maps.DirectionsRenderer();
                 var geocoder = new google.maps.Geocoder;
 
@@ -275,14 +290,14 @@
                 });
                 directionsDisplay.setMap(map);
 
-                
+
             },
             function (error) { alert("enable location in your mobile"); }, { timeout: 1000, enableHighAccuracy: true, maximumAge: 90000 });
         } else {
             alert("Geolocation is not supported by this browser.");
         }
     }
-   
+
     function addMarker(latlng, map1) {
         markers.push(new google.maps.Marker({
             position: latlng,
@@ -302,7 +317,7 @@
         waypoints = [];
         detailedWayPoints = [];
     }
-       
+
 
     function getLocationByRideId(rideObject) {
 
@@ -340,7 +355,7 @@
 
         $(rideObject.boardingpoints).each(function (index, object) {
             waypoints.push({ location: new google.maps.LatLng(object.lat, object.lng), stopover: true });
-        });        
+        });
 
         var mode = google.maps.DirectionsTravelMode.DRIVING;
         var request = {

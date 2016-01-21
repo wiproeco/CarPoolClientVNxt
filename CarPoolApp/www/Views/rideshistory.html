@@ -1,0 +1,26 @@
+﻿
+<div class="container-fluid">
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div style="display:table-cell">
+                    <h3 style="display:table-cell" class="panel-title">Rides History &nbsp;</h3>
+                </div>
+                <div style="display:table-cell" ng-if="processing">
+                    <div><img src="./images/spinner.gif" /></div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <h3 style="font-family:'Times New Roman', Times, serif">{{ridehistoryas}}</h3>
+                <div ng-if="ridesavailable">
+                    <table>
+                        <tr ng-repeat="x in rides.rides" style="border-bottom:solid 1px">
+                            <td><b>EndDate:</b>{{x.EndDate}}<br /><b>StartPoint:</b>{{x.StartPoint}}<br /><b>EndPoint:</b>{{x.EndPoint}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-if="!ridesavailable">{{rides}}</div>
+            </div>
+        </div>
+    </div>
+</div>

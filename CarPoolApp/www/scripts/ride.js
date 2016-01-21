@@ -101,20 +101,35 @@
                 google.maps.event.addListener(autocompleteStart, 'place_changed', function () {
                     clearMarkers();
                     var searchLocation = autocompleteStart.getPlace();
-                    $.ajax({
-                        type: "GET",
-                        contentType: "application/json",
-                        url: serviceurl + "/searchrides/" + searchLocation.vicinity,
-                        dataType: "json",
-                        success: function (data) {
-                            $(data).each(function (index, obj) {
-                                var vehicleLatLng = new google.maps.LatLng(obj.lat, obj.lng);
-                                var querystring = obj.id + "/" + obj.rideid;
-                                addMarker(vehicleLatLng, map, querystring);
-                            });
-                            directionsDisplay.setMap(map);
+                    try {
+                        $.ajax({
+                            type: "GET",
+                            contentType: "application/json",
+                            url: serviceurl + "/searchrides/" + searchLocation.vicinity,
+                            dataType: "json",
+                            success: function (data) {
+                                $(data).each(function (index, obj) {
+                                    var vehicleLatLng = new google.maps.LatLng(obj.lat, obj.lng);
+                                    var querystring = obj.id + "/" + obj.rideid;
+                                    addMarker(vehicleLatLng, map, querystring);
+                                });
+                                directionsDisplay.setMap(map);
+                            },
+                            error: function (data, status) {
+                                var logdetails = {
+                                    userid: localStorage.getItem("userid"),
+                                    logdescription: status
+                                }
+                                Errorlog($http, logdetails, true);
+                            }
+                        });
+                    } catch (e) {
+                        var logdetails = {
+                            userid: localStorage.getItem("userid"),
+                            logdescription: e.message
                         }
-                    });
+                        Errorlog($http, logdetails, true);
+                    }
                 });
 
 
@@ -126,19 +141,33 @@
                         reqforcurrgeolocnvalue = true;
                     else
                         reqforcurrgeolocnvalue = false;
-
-                    $.ajax({
-                        type: "POST",
-                        contentType: "application/json",
-                        url: serviceurl + "/joinride/",
-                        data: JSON.stringify({ carownerId: carOwnerId, userId: localStorage.getItem("userid"), rideid: rideObject.rideid, boardingid: $("#ddlPickuppoints").val(), reqforcurrgeolocn: reqforcurrgeolocnvalue }),
-                        dataType: "json",
-                        success: function (data) {
-                            $("#carmodal").modal("toggle");
-                            window.location.href = "usernotification.html";
-                            //alert('Request sent to Owner. Please be wait...');
+                    try {
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json",
+                            url: serviceurl + "/joinride/",
+                            data: JSON.stringify({ carownerId: carOwnerId, userId: localStorage.getItem("userid"), rideid: rideObject.rideid, boardingid: $("#ddlPickuppoints").val(), reqforcurrgeolocn: reqforcurrgeolocnvalue }),
+                            dataType: "json",
+                            success: function (data) {
+                                $("#carmodal").modal("toggle");
+                                window.location.href = "usernotification.html";
+                                //alert('Request sent to Owner. Please be wait...');
+                            },
+                            error: function () {
+                                var logdetails = {
+                                    userid: localStorage.getItem("userid"),
+                                    logdescription: status
+                                }
+                                Errorlog($http, logdetails, true);
+                            }
+                        });
+                    } catch (e) {
+                        var logdetails = {
+                            userid: localStorage.getItem("userid"),
+                            logdescription: e.message
                         }
-                    });
+                        Errorlog($http, logdetails, true);
+                    }
                 });
 
                 $("#lnkDashboard").click(function () {
@@ -184,30 +213,43 @@
             var position = marker.getPosition();
             var docId = marker.getTitle();
             carOwnerId = docId.split("/")[0];
+            try {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json",
+                    url: serviceurl + "/getridedetails/" + docId,
+                    dataType: "json",
+                    success: function (response) {
 
-            $.ajax({
-                type: "GET",
-                contentType: "application/json",
-                url: serviceurl + "/getridedetails/" + docId,
-                dataType: "json",
-                success: function (response) {
-
-                    $("#ddlPickuppoints").html("");
-                    var data = response[0];
-                    rideObject = response[0];
-                    $("#carmodal").modal("toggle");
-                    $("#carOwner").text(response[0].userName);
-                    $("#carNumber").text(response[0].carNo);
-                    $("#carSeatsCount").text(response[0].seatsavailable);
-                    $("#carFrom").text(response[0].startpoint);
-                    $("#carTo").text(response[0].endpoint);
-                    $(data.boardingpoints).each(function (index, obj) {
-                        var option = $("<option></option>");
-                        option.attr("value", obj.boardingid).text(obj.address);
-                        $("#ddlPickuppoints").append(option);
-                    });
+                        $("#ddlPickuppoints").html("");
+                        var data = response[0];
+                        rideObject = response[0];
+                        $("#carmodal").modal("toggle");
+                        $("#carOwner").text(response[0].userName);
+                        $("#carNumber").text(response[0].carNo);
+                        $("#carSeatsCount").text(response[0].seatsavailable);
+                        $("#carFrom").text(response[0].startpoint);
+                        $("#carTo").text(response[0].endpoint);
+                        $(data.boardingpoints).each(function (index, obj) {
+                            var option = $("<option></option>");
+                            option.attr("value", obj.boardingid).text(obj.address);
+                            $("#ddlPickuppoints").append(option);
+                        });
+                    }, error: function (data, status) {
+                        var logdetails = {
+                            userid: localStorage.getItem("userid"),
+                            logdescription: status
+                        }
+                        Errorlog($http, logdetails, true);
+                    }
+                });
+            } catch (e) {
+                var logdetails = {
+                    userid: localStorage.getItem("userid"),
+                    logdescription: status
                 }
-            });
+                Errorlog($http, logdetails, true);
+            }
 
         });
         markers.push(marker);

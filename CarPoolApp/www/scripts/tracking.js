@@ -86,52 +86,66 @@
             //getLocation();
         }
         else {
-            $.ajax({
-                type: "GET",
-                contentType: "application/json",
-                url: "http://carpoolwipro.azurewebsites.net/getuserdetails/" + ownerId,
-                dataType: "json",
-                success: function (data) {
-                    //currentRideObject = data[0];
-                    address = data[0].currgeolocnaddress;
-                    latitude =  data[0].currgeolocnlat;
-                    longitude = data[0].currgeolocnlong;
-                    //myCenter = new google.maps.LatLng(latitude, longitude);
-                    //myCenter = new google.maps.LatLng(51.508742, -0.120850);
-                    //myCenter = new google.maps.LatLng(17.4479216, 78.377201);
-                    myCenter = new google.maps.LatLng(latitude, longitude);
-
-       
-                    directionsService = new google.maps.DirectionsService();
-
-                    directionsDisplay = new google.maps.DirectionsRenderer();
-
-                    var mapProp = {
-                        center: myCenter,
-                        zoom: 15,
-                        scrollwheel: true,
-                        mapTypeControl: false,
-                        mapTypeControlOptions: {
-                            style: google.maps.MapTypeControlStyle.VERTICAL_BAR,
-                            position: google.maps.ControlPosition.RIGHT_CENTER
-                        },
-                        zoomControl: true,
-                        zoomControlOptions: {
-                            position: google.maps.ControlPosition.LEFT_CENTER
-                        },
-                        streetViewControl: false,
-                        streetViewControlOptions: {
-                            position: google.maps.ControlPosition.LEFT_TOP
-                        },
-                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                    };
-                    var map = new google.maps.Map(document.getElementById("map"), mapProp);
-                    placeMarker(myCenter, map);
+            try {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json",
+                    url: "http://carpoolwipro.azurewebsites.net/getuserdetails/" + ownerId,
+                    dataType: "json",
+                    success: function (data) {
+                        //currentRideObject = data[0];
+                        address = data[0].currgeolocnaddress;
+                        latitude = data[0].currgeolocnlat;
+                        longitude = data[0].currgeolocnlong;
+                        //myCenter = new google.maps.LatLng(latitude, longitude);
+                        //myCenter = new google.maps.LatLng(51.508742, -0.120850);
+                        //myCenter = new google.maps.LatLng(17.4479216, 78.377201);
+                        myCenter = new google.maps.LatLng(latitude, longitude);
 
 
-                    directionsDisplay.setMap(map);
+                        directionsService = new google.maps.DirectionsService();
+
+                        directionsDisplay = new google.maps.DirectionsRenderer();
+
+                        var mapProp = {
+                            center: myCenter,
+                            zoom: 15,
+                            scrollwheel: true,
+                            mapTypeControl: false,
+                            mapTypeControlOptions: {
+                                style: google.maps.MapTypeControlStyle.VERTICAL_BAR,
+                                position: google.maps.ControlPosition.RIGHT_CENTER
+                            },
+                            zoomControl: true,
+                            zoomControlOptions: {
+                                position: google.maps.ControlPosition.LEFT_CENTER
+                            },
+                            streetViewControl: false,
+                            streetViewControlOptions: {
+                                position: google.maps.ControlPosition.LEFT_TOP
+                            },
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+                        };
+                        var map = new google.maps.Map(document.getElementById("map"), mapProp);
+                        placeMarker(myCenter, map);
+
+
+                        directionsDisplay.setMap(map);
+                    }, error: function (data, status) {
+                        var logdetails = {
+                            userid: localStorage.getItem("userid"),
+                            logdescription: status
+                        }
+                        Errorlog($http, logdetails, true);
+                    }
+                });
+            } catch (e) {
+                var logdetails = {
+                    userid: localStorage.getItem("userid"),
+                    logdescription: status
                 }
-            });
+                Errorlog($http, logdetails, true);
+            }
 
         }
 

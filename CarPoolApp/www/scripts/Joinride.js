@@ -13,18 +13,33 @@
         var cssid = $(".modal-backdrop fade in");
         cssid.removeClass('modal-backdrop');
         cssid.removeClass('fade in');
-        $.ajax({
-            type: "POST",
-            contentType: "application/json",
-            url: serviceurl + "/joinride/",
-            data: JSON.stringify({ carownerId: carOwnerId, userId: localStorage.getItem("userid"), rideid: rideObject.rideid, boardingid: $("#ddlPickuppoints").val(), reqforcurrgeolocn: reqforcurrgeolocnvalue }),
-            dataType: "json",
-            success: function (data) {
-                $("#carmodal").hide();
-                $location.path("/usernotification");
-                if (!$scope.$$phase) $scope.$apply();
+        try {
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: serviceurl + "/joinride/",
+                data: JSON.stringify({ carownerId: carOwnerId, userId: localStorage.getItem("userid"), rideid: rideObject.rideid, boardingid: $("#ddlPickuppoints").val(), reqforcurrgeolocn: reqforcurrgeolocnvalue }),
+                dataType: "json",
+                success: function (data) {
+                    $("#carmodal").hide();
+                    $location.path("/usernotification");
+                    if (!$scope.$$phase) $scope.$apply();
+                },
+                error: function () {
+                    var logdetails = {
+                        userid: localStorage.getItem("userid"),
+                        logdescription: status
+                    }
+                    Errorlog($http, logdetails, true);
+                }
+            });
+        } catch (e) {
+            var logdetails = {
+                userid: localStorage.getItem("userid"),
+                logdescription: e.message
             }
-        });
+            Errorlog($http, logdetails, true);
+        }
     });
 });
 

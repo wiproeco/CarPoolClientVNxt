@@ -20,3 +20,16 @@
  .margin-2{
      margin:2px;
  }
+
+ .updatelink {
+    cursor:pointer;
+}
+
+.change-group { position: relative; }
+/*.change-group input { border:none: background:#fff; display:block; width: 100%; box-sizing: border-box }*/
+.change-group  img {
+     position: absolute; top: 2px; right: 5px;
+     margin-top:35px;
+     margin-right:10px;
+     cursor:pointer;
+}

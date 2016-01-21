@@ -29,17 +29,29 @@ app.config(['$routeProvider',
             controller: 'ownerridesCtrl'
         }).
         when('/ridedetails', {
-               templateUrl: 'views/ridedetails.html',
-               controller: 'myRideDetailsCtrl'
+            templateUrl: 'views/ridedetails.html',
+            controller: 'myRideDetailsCtrl'
         }).
         when('/updateprofiletoowner', {
             templateUrl: 'views/UpdateProfiletoOwner.html',
             controller: 'updateProfiletoOwnerCtrl'
         }).
+        when('/updateprofile', {
+            templateUrl: 'views/UpdateProfile.html',
+            controller: 'UpdateCntrl'
+        }).
+        when('/changepassword', {
+            templateUrl: 'views/Changepassword.html',
+            controller: 'UpdateCntrl'
+        }).
+       when('/rideshistory', {
+           templateUrl: 'views/rideshistory.html',
+           controller: 'ridesHistoryCtrl'
+       }).
         otherwise(
         {
             templateUrl: 'views/NewDashboard.html',
-            controller: 'dashboardCtrl'
+            controller: 'dashboardCtrl'            
         }
         );
   }]);
@@ -50,6 +62,7 @@ app.config(['$routeProvider',
 
 app.controller('homecontroller', ['$scope', '$http', '$window', 'Serviceurl', '$location', '$rootScope', 'userfactory', function ($scope, $http, $window, Serviceurl, $location, $rootScope, userfactory) {
     navigationLinks($scope, $http, $window, Serviceurl, $location);
+    $rootScope.loginAsOwnerOrNot = window.localStorage.getItem("loginAsOwnerOrNot");
     $rootScope.IsOwner = window.localStorage.getItem("isowner"); // to store usertype
     $rootScope.IsError = false;
     $rootScope.userName = window.localStorage.getItem("username");// this is used to show and hide the error divs
@@ -82,7 +95,7 @@ function navigationLinks($scope, $http, $window, Serviceurl, $location) {
         $location.path(notificationurl);
     }
 
-    $scope.ShareRide = function () {        
+    $scope.ShareRide = function () {
         $location.path("addmarker.html");
     }
 
@@ -94,13 +107,27 @@ function navigationLinks($scope, $http, $window, Serviceurl, $location) {
         $location.path("/Joinride");
     }
 
+    $scope.RidesHistory = function () {
+        $location.path("/rideshistory");
+    }
+
+    $scope.UpdateProfile = function (name) {
+        $location.path("/updateprofile");
+        //window.location.href = "UpdateProfile.html";
+    }
+
+    $scope.ChangePassword = function () {
+        //window.location.href = "Changepassword.html";        
+        $location.path("/changepassword");
+    }
+
     $scope.logOut = function () {
         window.localStorage.setItem("userid", 0);
         window.location.href = 'index.html';
     }
 }
 
-function PushNotifications(notificationurl, $rootScope) {    
+function PushNotifications(notificationurl, $rootScope) {
     var isowner = window.localStorage.getItem("isowner");
     var userId = window.localStorage.getItem("userid");
     var todayDate = new Date();
@@ -116,7 +143,7 @@ function PushNotifications(notificationurl, $rootScope) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 latitude = position.coords.latitude.toString();
                 longitude = position.coords.longitude.toString();
-                notificationurl = notificationurl + "/getnotitifications/" + userId + "/" + currentdate+ "/" + latitude + "/" + longitude;
+                notificationurl = notificationurl + "/getnotitifications/" + userId + "/" + currentdate + "/" + latitude + "/" + longitude;
                 totaltimeout = 15;
                 $("#MyNotifications").css("color", "green");
                 NotificationClientService.AutomaticNotifications(notificationurl, 2, totaltimeout, null, NoticationCallback);
@@ -164,12 +191,12 @@ app.controller('updateProfiletoOwnerCtrl', function ($scope, $http, $window, $fi
         //alert("test");
         window.localStorage.setItem("isowner", true);
         $('#myModal').modal('show');
-       // window.location.href = 'home.html';
+        // window.location.href = 'home.html';
 
     }
 
     $scope.Success = function () {
-         window.location.href = 'home.html';
+        window.location.href = 'home.html';
     }
 });
 

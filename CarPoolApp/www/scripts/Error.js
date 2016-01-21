@@ -1,8 +1,15 @@
 ﻿/// <reference path="angular.min.js" />
 
 
-var Errorlog = function ($http, request, isrender) {
-
+var Errorlog = function ($http, $scope, request, isrender) {
+    var d = new Date();
+    request = {
+        userid: request.userid,
+        logdescription: request.logdescription,
+        logDate: d.toLocaleDateString(),
+        logTime: d.toLocaleTimeString(),
+        type: 'Diagnostic'
+    }
     $http.post("http://carpoolwipro.azurewebsites.net/getLoghandler/", request)
             .success(function (res) {
                 console.log(res);
@@ -11,9 +18,9 @@ var Errorlog = function ($http, request, isrender) {
                     $("#errormsg").show();
                     $("#errormsg").html("Oops something went wrong. Please try again or refresh the page");
                 } else {
-                    $("#errordiv").show();
-                    $("#errormsg").show();
-                    $("#errormsg").html("Login failed 3 times. Contact adminstration");
+                    $scope.errormsg = true;
+                    $scope.authenticated = false;
+                    // $("#errormsg").html("Login failed 3 times. Contact adminstration");
                 }
             });
 

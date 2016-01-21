@@ -4,10 +4,7 @@
     $("#errordiv").hide();
     var logdetails = {
         userid: "",
-        logdescription: "",
-        logDate: $filter('date')(new Date(), 'dd/MM/yyyy'),
-        logTime: $filter('date')(new Date(), 'HH:mm'),
-        type: 'Diagnostic'
+        logdescription: "",       
     }
     document.getElementById("Loading").style.display = "block";
     //navigationLinks($scope, $http, $window);

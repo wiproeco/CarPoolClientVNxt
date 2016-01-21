@@ -68,7 +68,11 @@ app.controller('newRideCtrl', function ($scope, $http, $window, $location) {
                 $location.path("ridedetails.html?rideid=" + currentRideObject.rideid);                
             }
         } catch (e) {
-
+            var logdetails = {
+                userid: localStorage.getItem("userid"),
+                logdescription: e.message
+            }
+            Errorlog($http, logdetails, true);
         }
     });
 });
@@ -118,18 +122,33 @@ function intilize() {
             getLocation();
         }
         else {
-            $.ajax({
-                type: "GET",
-                contentType: "application/json",
-                url: "http://carpoolwipro.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
-                //url: "http://carpooltestapp.azurewebsites.net/updateroute",                
-                dataType: "json",
-                success: function (data) {
-                    currentRideObject = data[0];
-                    getLocationByRideId(data[0]);
+            try {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json",
+                    url: "http://carpoolwipro.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
+                    //url: "http://carpooltestapp.azurewebsites.net/updateroute",                
+                    dataType: "json",
+                    success: function (data) {
+                        currentRideObject = data[0];
+                        getLocationByRideId(data[0]);
+                    },
+                    error: function (data, status) {
+                        var logdetails = {
+                            userid: localStorage.getItem("userid"),
+                            logdescription: status
+                        }
+                        Errorlog($http, logdetails, true);
+                    }
+                });
+            }
+            catch (e) {
+                var logdetails = {
+                    userid: localStorage.getItem("userid"),
+                    logdescription: e.message
                 }
-            });
-
+                Errorlog($http, logdetails, true);
+            }
         }
 
         directionsService = new google.maps.DirectionsService();
