@@ -29,8 +29,8 @@ app.config(['$routeProvider',
             controller: 'ownerridesCtrl'
         }).
         when('/ridedetails', {
-            templateUrl: 'views/ridedetails.html',
-            controller: 'myRideDetailsCtrl'
+               templateUrl: 'views/ridedetails.html',
+               controller: 'myRideDetailsCtrl'
         }).
         when('/updateprofiletoowner', {
             templateUrl: 'views/UpdateProfiletoOwner.html',
@@ -51,7 +51,7 @@ app.config(['$routeProvider',
         otherwise(
         {
             templateUrl: 'views/NewDashboard.html',
-            controller: 'dashboardCtrl'            
+            controller: 'dashboardCtrl'
         }
         );
   }]);
@@ -95,7 +95,7 @@ function navigationLinks($scope, $http, $window, Serviceurl, $location) {
         $location.path(notificationurl);
     }
 
-    $scope.ShareRide = function () {
+    $scope.ShareRide = function () {        
         $location.path("addmarker.html");
     }
 
@@ -127,7 +127,7 @@ function navigationLinks($scope, $http, $window, Serviceurl, $location) {
     }
 }
 
-function PushNotifications(notificationurl, $rootScope) {
+function PushNotifications(notificationurl, $rootScope) {    
     var isowner = window.localStorage.getItem("isowner");
     var userId = window.localStorage.getItem("userid");
     var todayDate = new Date();
@@ -181,24 +181,63 @@ app.controller('updateProfiletoOwnerCtrl', function ($scope, $http, $window, $fi
     $scope.processing = false;
     $scope.seats = 1;
 
+    /// In cancel and dont want to upgrade to owner redirect to user dashboard
     $scope.Cancel = function () {
-        alert("test1");
         $location.path("#");
     }
 
+    /// Upgrade to owner
     $scope.Upgrade = function () {
-        // $location.path("NewDashboard.html");
-        //alert("test");
-        window.localStorage.setItem("isowner", true);
+        if ($scope.form.$valid) {
+           
+
+            var updateprofile = {
+                CarNumber: $scope.carno,
+                isowner: true,
+                id: localStorage.getItem('userid')
+            }
+
+            $scope.processing = true;
+            try {
+                var url = $http.post(Serviceurl + "/UpgradeUsertoOwner/", updateprofile);
+                url.success(function (result) {
+                    //alert(result);
+                    $scope.success = true;
+                    $scope.processing = false;
+                    window.localStorage.setItem("isowner", false);
         $('#myModal').modal('show');
-        // window.location.href = 'home.html';
+
+                }).error(function (data, status) {
+                    logdetails.userid = localStorage.getItem("username");
+                    logdetails.logdescription = status;
+                    Errorlog($http, logdetails, true);
+                    $scope.processing = false;
+                });
+            } catch (e) {
+                $scope.processing = false;
+                logdetails.userid = localStorage.getItem("username");
+                logdetails.logdescription = e.message;
+                Errorlog($http, logdetails, true);
+            }
+
+           
+           
+        }
+        else {
+            //if form is not valid set $scope.addRelation.submitted to true
+            $scope.form.submitted = true;
+        }
 
     }
 
+    /// If upgrdation success get popup message and redirect to Home.html
     $scope.Success = function () {
-        window.location.href = 'home.html';
+         window.location.href = 'home.html';
     }
 });
+
+
+
 
 
 
