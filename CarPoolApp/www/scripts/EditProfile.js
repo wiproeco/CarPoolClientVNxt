@@ -1,5 +1,5 @@
 
-app.controller('UpdateCntrl', function ($scope, $http, $window, $filter, Serviceurl, $rootScope) {
+app.controller('UpdateCntrl', function ($scope, $http, $window, $filter, Serviceurl, $rootScope, $location) {
     var logdetails = {
         userid: "",
         logdescription: "",        
@@ -31,7 +31,8 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter, Service
     }
 
     $scope.ChangePassword = function () {
-        window.location.href = "Changepassword.html";
+        // window.location.href = "Changepassword.html";
+        $location.path("/changepassword");
     }
 
     $scope.validpassword = true;
@@ -69,11 +70,10 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter, Service
                 $scope.processing = true;
                 try {
                     var url = $http.post(Serviceurl +'/updatePassword', updatepswd, { headers: { 'Content-Type': 'application/json' } });
-                    url.success(function (result) {
-                        //alert(result);
+                    url.success(function (result) {                        
                         $scope.success = true;
-                        $scope.processing = false;
-                        window.location.href = "UpdateProfile.html";
+                        $scope.processing = false;                        
+                        $location.path("/updateprofile");
                     }).error(function (data, status) {
                         logdetails.userid = localStorage.getItem("username");
                         logdetails.logdescription = status;
@@ -93,7 +93,7 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter, Service
     }
 
     $scope.GoBack = function () {
-        window.location.href = "UpdateProfile.html";
+        $location.path("/updateprofile");
     }
 
     $scope.checkUserName = function (username) {
@@ -160,7 +160,7 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter, Service
     }
 
     $scope.Cancel = function () {
-        window.location.href = "NewDashboard.html";
+        window.location.href = "home.html";
     }
 
     $scope.validPhone = true;
