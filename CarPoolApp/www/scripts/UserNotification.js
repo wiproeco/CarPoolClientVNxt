@@ -1,10 +1,10 @@
-﻿app.controller('usernotificationCtrl', function ($scope, $http, $window, $filter, Serviceurl) {
+﻿app.controller('usernotificationCtrl', function ($scope, $http, $window, $filter, Serviceurl, $location) {
     $("div.modal-backdrop").remove();
     $("#errormsg").hide();
     $("#errordiv").hide();
     var logdetails = {
         userid: "",
-        logdescription: "",       
+        logdescription: "",
     }
     document.getElementById("Loading").style.display = "block";
     //navigationLinks($scope, $http, $window);
@@ -37,6 +37,7 @@
     }
 
     $scope.trackownerlocation = function (ownerid) {
-        window.location.href = "tracking.html?ownerId=" + ownerid;
+        //window.location.href = "tracking.html?ownerId=" + ownerid;
+        $location.path('/ownertracking?ownerId=' + ownerid);
     };
 });

@@ -52,7 +52,7 @@ app.config(['$routeProvider',
             templateUrl: 'views/ridedetails.html',
             controller: 'myRideDetailsCtrl'
         }).
-        when('/ownertracking', {
+        when('/ownertracking/:ownerId', {
             templateUrl: 'views/ownertracking.html',
             controller: 'ownertrackingCtrl'
         }).
