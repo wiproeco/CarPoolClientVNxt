@@ -54,7 +54,7 @@
     var nearVehicles = [];
     var rideObject = null;
     var carOwnerId = null;
-    var serviceurl = "http://carpoolwipro.azurewebsites.net";
+    var serviceurl = "http://wiprocarpool.azurewebsites.net";
 
 
     global.intilize = function () {

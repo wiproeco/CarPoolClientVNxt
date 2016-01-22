@@ -65,7 +65,9 @@ app.controller('newRideCtrl', function ($scope, $http, $window, $location) {
                 if (!$scope.$$phase) $scope.$apply();
             }
             else {
-                $location.path("ridedetails.html?rideid=" + currentRideObject.rideid);                
+                // $location.path("ridedetails.html?rideid=" + currentRideObject.rideid);                
+                $location.path("/ridedetails?rideid=" + currentRideObject.rideid);
+                if (!$scope.$$phase) $scope.$apply();
             }
         } catch (e) {
             var logdetails = {
@@ -126,7 +128,7 @@ function intilize() {
                 $.ajax({
                     type: "GET",
                     contentType: "application/json",
-                    url: "http://carpoolwipro.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
+                    url: "http://wiprocarpool.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
                     //url: "http://carpooltestapp.azurewebsites.net/updateroute",                
                     dataType: "json",
                     success: function (data) {

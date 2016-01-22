@@ -90,7 +90,7 @@
                 $.ajax({
                     type: "GET",
                     contentType: "application/json",
-                    url: "http://carpoolwipro.azurewebsites.net/getuserdetails/" + ownerId,
+                    url: "http://wiprocarpool.azurewebsites.net/getuserdetails/" + ownerId,
                     dataType: "json",
                     success: function (data) {
                         //currentRideObject = data[0];

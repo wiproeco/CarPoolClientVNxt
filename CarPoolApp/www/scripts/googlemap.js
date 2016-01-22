@@ -25,7 +25,7 @@ var service = {
 var nearVehicles = [];
 var rideObject = null;
 var carOwnerId = null;
-var serviceurl = "http://carpoolwipro.azurewebsites.net";
+var serviceurl = "http://wiprocarpool.azurewebsites.net";
 var isOwner = window.localStorage.getItem("isowner");
 
 function intilize() {
@@ -97,7 +97,7 @@ function getLocationforNewride() {
         $.ajax({
             type: "GET",
             contentType: "application/json",
-            url: "http://carpoolwipro.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
+            url: "http://wiprocarpool.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
             //url: "http://carpooltestapp.azurewebsites.net/updateroute",                
             dataType: "json",
             success: function (data) {

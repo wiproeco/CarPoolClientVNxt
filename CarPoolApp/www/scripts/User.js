@@ -201,7 +201,7 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
                         });
                         $scope.processing = true;
                         try {
-                            var res = $http.post('http://carpoolwipro.azurewebsites.net/register', user,
+                            var res = $http.post('http://wiprocarpool.azurewebsites.net/register', user,
                                       { headers: { 'Content-Type': 'application/json' } });
                             res.success(function (data, status, headers, config) {
                                 $scope.iserror = false;

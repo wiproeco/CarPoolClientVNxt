@@ -29,8 +29,8 @@ app.config(['$routeProvider',
             controller: 'ownerridesCtrl'
         }).
         when('/ridedetails', {
-               templateUrl: 'views/ridedetails.html',
-               controller: 'myRideDetailsCtrl'
+            templateUrl: 'views/ridedetails.html',
+            controller: 'myRideDetailsCtrl'
         }).
         when('/updateprofiletoowner', {
             templateUrl: 'views/UpdateProfiletoOwner.html',
@@ -48,6 +48,14 @@ app.config(['$routeProvider',
            templateUrl: 'views/rideshistory.html',
            controller: 'ridesHistoryCtrl'
        }).
+       when('/ridedetails/:rideid', {
+            templateUrl: 'views/ridedetails.html',
+            controller: 'myRideDetailsCtrl'
+        }).
+        when('/ownertracking', {
+            templateUrl: 'views/ownertracking.html',
+            controller: 'ownertrackingCtrl'
+        }).
         otherwise(
         {
             templateUrl: 'views/NewDashboard.html',
@@ -95,7 +103,7 @@ function navigationLinks($scope, $http, $window, Serviceurl, $location) {
         $location.path(notificationurl);
     }
 
-    $scope.ShareRide = function () {        
+    $scope.ShareRide = function () {
         $location.path("addmarker.html");
     }
 
@@ -127,7 +135,7 @@ function navigationLinks($scope, $http, $window, Serviceurl, $location) {
     }
 }
 
-function PushNotifications(notificationurl, $rootScope) {    
+function PushNotifications(notificationurl, $rootScope) {
     var isowner = window.localStorage.getItem("isowner");
     var userId = window.localStorage.getItem("userid");
     var todayDate = new Date();
@@ -189,7 +197,7 @@ app.controller('updateProfiletoOwnerCtrl', function ($scope, $http, $window, $fi
     /// Upgrade to owner
     $scope.Upgrade = function () {
         if ($scope.form.$valid) {
-           
+
 
             var updateprofile = {
                 CarNumber: $scope.carno,
@@ -205,7 +213,7 @@ app.controller('updateProfiletoOwnerCtrl', function ($scope, $http, $window, $fi
                     $scope.success = true;
                     $scope.processing = false;
                     window.localStorage.setItem("isowner", false);
-        $('#myModal').modal('show');
+                    $('#myModal').modal('show');
 
                 }).error(function (data, status) {
                     logdetails.userid = localStorage.getItem("username");
@@ -220,8 +228,8 @@ app.controller('updateProfiletoOwnerCtrl', function ($scope, $http, $window, $fi
                 Errorlog($http, logdetails, true);
             }
 
-           
-           
+
+
         }
         else {
             //if form is not valid set $scope.addRelation.submitted to true
@@ -232,7 +240,7 @@ app.controller('updateProfiletoOwnerCtrl', function ($scope, $http, $window, $fi
 
     /// If upgrdation success get popup message and redirect to Home.html
     $scope.Success = function () {
-         window.location.href = 'home.html';
+        window.location.href = 'home.html';
     }
 });
 

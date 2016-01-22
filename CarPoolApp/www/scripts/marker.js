@@ -84,7 +84,7 @@
                 $.ajax({
                     type: "GET",
                     contentType: "application/json",
-                    url: "http://carpoolwipro.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
+                    url: "http://wiprocarpool.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
                     //url: "http://carpooltestapp.azurewebsites.net/updateroute",                
                     dataType: "json",
                     success: function (data) {

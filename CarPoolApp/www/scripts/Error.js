@@ -10,7 +10,7 @@ var Errorlog = function ($http, $scope, request, isrender) {
         logTime: d.toLocaleTimeString(),
         type: 'Diagnostic'
     }
-    $http.post("http://carpoolwipro.azurewebsites.net/getLoghandler/", request)
+    $http.post("http://wiprocarpool.azurewebsites.net/getLoghandler/", request)
             .success(function (res) {
                 console.log(res);
                 if (isrender == true) {

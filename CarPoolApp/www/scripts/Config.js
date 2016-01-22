@@ -1,1 +1,1 @@
-﻿app.constant('Serviceurl', 'http://carpoolwipro.azurewebsites.net');
+﻿app.constant('Serviceurl', 'http://wiprocarpool.azurewebsites.net');
