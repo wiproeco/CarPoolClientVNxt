@@ -2,6 +2,7 @@
     loadMapsApi();
     $("#errordiv").hide();
     $("errormsg").hide();
+    $scope.IsError = false;
     $("#btnJoinRide").click(function () {
 
         var reqforcurrgeolocnvalue = "";
@@ -30,7 +31,7 @@
                         userid: localStorage.getItem("userid"),
                         logdescription: status
                     }
-                    Errorlog($http, logdetails, true);
+                    Errorlog($http,$scope, logdetails, true);
                 }
             });
         } catch (e) {
@@ -38,7 +39,7 @@
                 userid: localStorage.getItem("userid"),
                 logdescription: e.message
             }
-            Errorlog($http, logdetails, true);
+            Errorlog($http, $scope,logdetails, true);
         }
     });
 });

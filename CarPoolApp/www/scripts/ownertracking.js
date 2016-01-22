@@ -100,7 +100,7 @@ function intilizecurrentownerlocation() {
                         userid: localStorage.getItem("userid"),
                         logdescription: status
                     }
-                    Errorlog($http, logdetails, true);
+                    Errorlog($http,$scope, logdetails, true);
                 }
             });
         } catch (e) {
@@ -108,7 +108,7 @@ function intilizecurrentownerlocation() {
                 userid: localStorage.getItem("userid"),
                 logdescription: status
             }
-            Errorlog($http, logdetails, true);
+            Errorlog($http,$scope, logdetails, true);
         }
 
     }

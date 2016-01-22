@@ -4,6 +4,7 @@
         userid: "",
         logdescription: "",        
     }
+    $scope.IsError = false;
     document.getElementById("Loading").style.display = "block";
     //navigationLinks($scope, $http, $window);
     $scope.notificationdata = "";
@@ -39,12 +40,12 @@
                             logdetails.userid = userId;
                             logdetails.logdescription = status;
                             $scope.isOwnerNotificationHasData = false;
-                            Errorlog($http, logdetails, true);
+                            Errorlog($http, $scope, logdetails, true);
                         });
             } catch (e) {
                 logdetails.userid = userId;
                 logdetails.logdescription = e.message;
-                Errorlog($http, logdetails, true);
+                Errorlog($http,$scope, logdetails, true);
                 $scope.isOwnerNotificationHasData = false;
             }
         });
@@ -82,12 +83,12 @@
                 document.getElementById("Loading").style.display = "none";
                 logdetails.userid = userId;
                 logdetails.logdescription = status;
-                Errorlog($http, logdetails, true);
+                Errorlog($http,$scope, logdetails, true);
             });
         } catch (e) {
             logdetails.userid = userId;
             logdetails.logdescription = e.message;
-            Errorlog($http, logdetails, true);
+            Errorlog($http,$scope, logdetails, true);
         }
     }
 

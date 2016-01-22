@@ -71,8 +71,9 @@ app.config(['$routeProvider',
 app.controller('homecontroller', ['$scope', '$http', '$window', 'Serviceurl', '$location', '$rootScope', 'userfactory', function ($scope, $http, $window, Serviceurl, $location, $rootScope, userfactory) {
     navigationLinks($scope, $http, $window, Serviceurl, $location);
     $rootScope.loginAsOwnerOrNot = window.localStorage.getItem("loginAsOwnerOrNot");
-    $rootScope.IsOwner = window.localStorage.getItem("isowner"); // to store usertype
+    $rootScope.IsOwner = window.localStorage.getItem("loginAsOwnerOrNot"); // to store usertype   
     $rootScope.IsError = false;
+    $scope.IsError = false;
     $rootScope.userName = window.localStorage.getItem("username");// this is used to show and hide the error divs
 }]);
 
@@ -85,6 +86,7 @@ app.controller('homecontroller', ['$scope', '$http', '$window', 'Serviceurl', '$
 
 
 function navigationLinks($scope, $http, $window, Serviceurl, $location) {
+    $scope.IsError = false;
 
     $scope.MyDashboard = function () {
 

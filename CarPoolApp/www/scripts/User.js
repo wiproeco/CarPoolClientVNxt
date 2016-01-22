@@ -16,12 +16,14 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
     $scope.iserror = false;
     $scope.success = false;
     $scope.errormsg = false;
+
     //$("#errormsg").hide();
     //$("#errordiv").hide();
     var logdetails = {
         userid: "",
         logdescription: "",        
     }
+    $scope.IsError = false;
     var numofLoginAttempts;
     $scope.login = function () {
         //$("#errordiv").hide();
@@ -83,14 +85,14 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
                             document.getElementById("Loading").style.display = "none";
                             logdetails.userid = $scope.txtEmail;
                             logdetails.logdescription = status;
-                            Errorlog($http, logdetails, true);
+                            Errorlog($http,$scope, logdetails, true);
 
                         });
                     }
                     catch (e) {
                         logdetails.userid = $scope.txtEmail;
                         logdetails.logdescription = e.message;
-                        Errorlog($http, logdetails,true);
+                        Errorlog($http,$scope, logdetails,true);
                     }
 
                 }
@@ -228,12 +230,12 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
                                 $scope.processing = false;
                                 logdetails.userid = $scope.txtRegEmail;
                                 logdetails.logdescription = status;
-                                Errorlog($http, logdetails, true);
+                                Errorlog($http,$scope, logdetails, true);
                             });
                         } catch (ex) {
                             logdetails.userid = $scope.txtRegEmail;
                             logdetails.logdescription = ex.message;
-                            Errorlog($http, logdetails, true);
+                            Errorlog($http,$scope, logdetails, true);
                         }
                     }
                     return false;

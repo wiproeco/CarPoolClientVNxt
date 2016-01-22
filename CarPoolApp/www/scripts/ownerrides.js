@@ -9,6 +9,7 @@ app.controller('ownerridesCtrl', function ($scope, $http, $window, Serviceurl) {
     }
     document.getElementById("Loading").style.display = "block";
     //navigationLinks($scope, $http, $window);
+    $scope.IsError = false;
 
     $scope.rideId = "";
     $scope.rides = [];
@@ -36,13 +37,13 @@ app.controller('ownerridesCtrl', function ($scope, $http, $window, Serviceurl) {
                //$scope.success = false;
                logdetails.userID = userid;
                logdetails.logdescription = status;
-               Errorlog($http, logdetails, true);
+               Errorlog($http,$scope, logdetails, true);
            });
         }
         catch (e) {
             logdetails.userID = userid;
             logdetails.logdescription = e.message;
-            Errorlog($http, logdetails);
+            Errorlog($http,$scope, logdetails);
         }
     }
     $scope.getDetails = function (rideId) {
@@ -76,20 +77,21 @@ function getAllRideDetails($scope, $http, userid, Serviceurl) {
                 userid: localStorage.getItem("userid"),
                 logdescription: status
             }
-            Errorlog($http, logdetails, true);
+            Errorlog($http,$scope, logdetails, true);
         });
     } catch (e) {
         var logdetails = {
             userid: localStorage.getItem("userid"),
             logdescription: e.message
         }
-        Errorlog($http, logdetails, true);
+        Errorlog($http,$scope, logdetails, true);
     }
 }
 
 app.controller('myRideDetailsCtrl', function ($scope, $http, $window, Serviceurl, $location) {
     $("#errormsg").hide();
     $("#errordiv").hide();
+    $scope.IsError = false;
     var logdetails = {
         userID: "",
         logdescription: "",
@@ -141,14 +143,14 @@ app.controller('myRideDetailsCtrl', function ($scope, $http, $window, Serviceurl
                var userid = localStorage.getItem("userid");
                logdetails.userID = userid;
                logdetails.logdescription = status;
-               Errorlog($http, logdetails, true);
+               Errorlog($http,$scope, logdetails, true);
            });
         }
         catch (e) {
             var userid = localStorage.getItem("userid");
             logdetails.userID = userid;
             logdetails.logdescription = e.message;
-            Errorlog($http, logdetails, true);
+            Errorlog($http,$scope, logdetails, true);
         }
     }
 });

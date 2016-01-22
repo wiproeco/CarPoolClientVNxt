@@ -2,6 +2,7 @@
     $("div.modal-backdrop").remove();
     $("#errormsg").hide();
     $("#errordiv").hide();
+    $scope.IsError = false;
     var logdetails = {
         userid: "",
         logdescription: "",
@@ -28,12 +29,12 @@
                     document.getElementById("Loading").style.display = "none";
                     logdetails.userid = userId;
                     logdetails.logdescription = status;
-                    Errorlog($http, logdetails, true);
+                    Errorlog($http,$scope, logdetails, true);
                 });
     } catch (e) {
         logdetails.userid = userId;
         logdetails.logdescription = e.message;
-        Errorlog($http, logdetails, true);
+        Errorlog($http, $scope,logdetails, true);
     }
 
     $scope.trackownerlocation = function (ownerid) {

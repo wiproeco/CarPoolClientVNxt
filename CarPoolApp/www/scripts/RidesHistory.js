@@ -1,5 +1,6 @@
 ﻿app.controller('ridesHistoryCtrl', function ($scope, $http, $window, $filter, Serviceurl, $rootScope) {    
     $scope.processing = true;
+    $scope.IsError = false;
     var logdetails = {
         userid: '',
         logdescription:''
@@ -40,13 +41,13 @@
                 document.getElementById("Loading").style.display = "none";
                 logdetails.userid = $scope.txtEmail;
                 logdetails.logdescription = status;
-                Errorlog($http, logdetails, true);
+                Errorlog($http,$scope, logdetails, true);
 
             });
     } catch (e) {
         logdetails.userid = $scope.txtEmail;
         logdetails.logdescription = e.message;
-        Errorlog($http, logdetails, true);
+        Errorlog($http,$scope, logdetails, true);
     }
     function addZero(i) {
         if (i < 10) {

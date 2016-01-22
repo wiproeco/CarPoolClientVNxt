@@ -4,7 +4,7 @@ app.controller('newRideCtrl', function ($scope, $http, $window, $location) {
     $("#errormsg").hide();
     $("#errordiv").hide();
     loadMapsApi();
-
+    $scope.IsError = false;
     $("#btnRoute").click(function () {
 
         var mode = google.maps.DirectionsTravelMode.DRIVING;
@@ -140,7 +140,7 @@ function intilize() {
                             userid: localStorage.getItem("userid"),
                             logdescription: status
                         }
-                        Errorlog($http, logdetails, true);
+                        Errorlog($http,$scope, logdetails, true);
                     }
                 });
             }
@@ -149,7 +149,7 @@ function intilize() {
                     userid: localStorage.getItem("userid"),
                     logdescription: e.message
                 }
-                Errorlog($http, logdetails, true);
+                Errorlog($http,$scope, logdetails, true);
             }
         }
 

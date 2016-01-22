@@ -1,5 +1,5 @@
 ﻿app.controller('dashboardCtrl', function ($scope, $http, $window, Serviceurl, $location, $rootScope) {
-    $scope.IsOwner = $rootScope.IsOwner;       
+    $scope.IsOwner = $rootScope.IsOwner;
     $scope.userName = localStorage.getItem("username");
     $scope.IsownerSelection = localStorage.getItem("isownerSelection");
     $scope.isOwnerForNotification = window.localStorage.getItem("isowner");

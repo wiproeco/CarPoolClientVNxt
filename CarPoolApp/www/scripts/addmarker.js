@@ -96,7 +96,7 @@
                             userid: localStorage.getItem("userid"),
                             logdescription: status
                         }
-                        Errorlog($http, logdetails, true);
+                        Errorlog($http,$scope, logdetails, true);
                     }
                 });
             } catch (e) {
@@ -104,7 +104,7 @@
                     userid: localStorage.getItem("userid"),
                     logdescription: e.message
                 }
-                Errorlog($http, logdetails, true);
+                Errorlog($http,$scope, logdetails, true);
             }
         });
 

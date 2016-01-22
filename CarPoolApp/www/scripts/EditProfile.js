@@ -1,5 +1,6 @@
 
 app.controller('UpdateCntrl', function ($scope, $http, $window, $filter, Serviceurl, $rootScope, $location) {
+    $scope.IsError = false;
     var logdetails = {
         userid: "",
         logdescription: "",        
@@ -19,15 +20,15 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter, Service
             $scope.mobile = data[0].mobile;
             $scope.photo = data[0].photo;
         }).error(function (result, status) {
-            logdetails.userid = localStorage.getItem("username");
+            logdetails.userid = localStorage.getItem("userid");
             logdetails.logdescription = status;
-            Errorlog($http, logdetails, true);
+            Errorlog($http,$scope, logdetails, true);
         });
     }
     catch (e) {
-        logdetails.userid = localStorage.getItem("username");
+        logdetails.userid = localStorage.getItem("userid");
         logdetails.logdescription = e.message;
-        Errorlog($http, logdetails, true);
+        Errorlog($http,$scope, logdetails, true);
     }
 
     $scope.ChangePassword = function () {
@@ -75,14 +76,14 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter, Service
                         $scope.processing = false;                        
                         $location.path("/updateprofile");
                     }).error(function (data, status) {
-                        logdetails.userid = localStorage.getItem("username");
+                        logdetails.userid = localStorage.getItem("userid");
                         logdetails.logdescription = status;
-                        Errorlog($http, logdetails, true);
+                        Errorlog($http, $scope,logdetails, true);
                     });
                 } catch (e) {
-                    logdetails.userid = localStorage.getItem("username");
+                    logdetails.userid = localStorage.getItem("userid");
                     logdetails.logdescription = e.message;
-                    Errorlog($http, logdetails, true);
+                    Errorlog($http,$scope, logdetails, true);
                 }
             }
             }
@@ -99,16 +100,24 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter, Service
     $scope.checkUserName = function (username) {
         $scope.checkuser = true;
         var userName = username;
-        if (username !== undefined && username!==prevUsername) {
-            $http.get(Serviceurl + "/CheckUsername/" + userName)
-                .success(function (response) {
-                    if (response.length > 0) {
-                        $scope.checkuser = false;
-                        $("#form-username").focus();
-                    }
-                }).error(function (data, status) {
-                    //  Errorlog($http, logdetails, true);
-                });
+        try {
+            if (username !== undefined && username !== prevUsername) {
+                $http.get(Serviceurl + "/CheckUsername/" + userName)
+                    .success(function (response) {
+                        if (response.length > 0) {
+                            $scope.checkuser = false;
+                            $("#form-username").focus();
+                        }
+                    }).error(function (data, status) {
+                        logdetails.userid = localStorage.getItem("userid");
+                        logdetails.logdescription = status;
+                        Errorlog($http, $scope, logdetails, true);
+                    });
+            }
+        } catch (e) {
+            logdetails.userid = localStorage.getItem("userid");
+            logdetails.logdescription = e.message;
+            Errorlog($http, $scope, logdetails, true);
         }
     }
 
@@ -145,15 +154,15 @@ app.controller('UpdateCntrl', function ($scope, $http, $window, $filter, Service
                             //window.location.href = "NewDashboard.html";
                         }
                     }).error(function (data, status) {
-                        logdetails.userid = localStorage.getItem("username");
+                        logdetails.userid = localStorage.getItem("userid");
                         logdetails.logdescription = status;
-                        Errorlog($http, logdetails, true);
+                        Errorlog($http,$scope, logdetails, true);
                     });
                 }
                 catch (e) {
-                    logdetails.userid = localStorage.getItem("username");
+                    logdetails.userid = localStorage.getItem("userid");
                     logdetails.logdescription = e.message;
-                    Errorlog($http, logdetails, true);
+                    Errorlog($http, $scope, logdetails, true);
                 }
             }
         } 
