@@ -39,6 +39,7 @@
 
     $scope.trackownerlocation = function (ownerid) {
         //window.location.href = "tracking.html?ownerId=" + ownerid;
-        $location.path('/ownertracking?ownerId=' + ownerid);
+        window.localStorage.setItem("ownercartracking", ownerid);
+        $location.path('/ownertracking');
     };
 });

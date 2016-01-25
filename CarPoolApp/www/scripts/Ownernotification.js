@@ -10,8 +10,7 @@
     $scope.notificationdata = "";
     var userId = window.localStorage.getItem("userid");
     $scope.userName = localStorage.getItem("username");
-    var todayDate = new Date();
-    var date = todayDate.getFullYear() + "-" + (todayDate.getMonth() + 1) + "-" + todayDate.getDate();
+    var currentdate = moment().format('MM-DD-YYYY');
     var latitude = "";
     var longitude = "";
     if (navigator.geolocation) {
@@ -19,7 +18,7 @@
             latitude = position.coords.latitude.toString();
             longitude = position.coords.longitude.toString();
 
-            var url = Serviceurl + "/getnotitifications/" + userId + "/" + date.toString() + "/" + latitude + "/" + longitude;
+            var url = Serviceurl + "/getnotitifications/" + userId + "/" + currentdate + "/" + latitude + "/" + longitude;
             try {
                 $http.get(url)
                         .success(function (response) {
