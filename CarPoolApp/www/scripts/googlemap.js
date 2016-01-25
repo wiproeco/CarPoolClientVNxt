@@ -97,8 +97,7 @@ function getLocationforNewride() {
         $.ajax({
             type: "GET",
             contentType: "application/json",
-            url: "http://wiprocarpool.azurewebsites.net/getridedetails/" + userid + "/" + rideId,
-            //url: "http://carpooltestapp.azurewebsites.net/updateroute",                
+            url: serviceurl+ "/getridedetails/" + userid + "/" + rideId,
             dataType: "json",
             success: function (data) {
                 currentRideObject = data[0];
@@ -187,14 +186,23 @@ function getLocation() {
                 position: geoLocation,
                 map: map,
             })
-
+            
             google.maps.event.addListener(autocompleteStart, 'place_changed', function () {
                 clearMarkers();
                 var searchLocation = autocompleteStart.getPlace();
+                var userId = localStorage.getItem("userid");
+                var currentdate = moment().format('MM-DD-YYYY');
+                var searchText = '';
+                if (searchLocation.vicinity) {
+                    searchText = searchLocation.name + "," + searchLocation.vicinity;
+                } else {
+                    searchText = searchLocation.name;
+                }
+
                 $.ajax({
                     type: "GET",
                     contentType: "application/json",
-                    url: serviceurl + "/searchrides/" + searchLocation.vicinity,
+                    url: serviceurl + "/searchrides/" + searchText + "/" + userId + "/" + currentdate,
                     dataType: "json",
                     success: function (data) {
                         $(data).each(function (index, obj) {
