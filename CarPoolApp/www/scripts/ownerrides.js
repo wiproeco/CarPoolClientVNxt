@@ -1,5 +1,5 @@
 ﻿
-app.controller('ownerridesCtrl', function ($scope, $http, $window, Serviceurl) {
+app.controller('ownerridesCtrl', function ($scope, $http, $window, Serviceurl, $location) {
     //$("#errormsg").hide();
     //$("#errordiv").hide();
     $scope.error = false;
@@ -47,8 +47,11 @@ app.controller('ownerridesCtrl', function ($scope, $http, $window, Serviceurl) {
         }
     }
     $scope.getDetails = function (rideId) {
-        localStorage.setItem("currentRideId", rideId);
-        window.location.href = "marker.html?rideid=" + rideId;
+        localStorage.setItem("currentRideId", rideId);        
+        
+        $location.path("/newride");
+        //if (!$scope.$$phase) $scope.$apply();
+        //window.location.href = "marker.html?rideid=" + rideId;
     }
     $scope.newRide = function () {
         window.location.href = "marker.html";

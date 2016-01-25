@@ -89,22 +89,24 @@ function getLocationforNewride() {
     //var userid = "011251e3-a03d-60ad-a981-973b0bc60253";
     localStorage.setItem("userid", userid);
 
-    rideId = getUrlParameter('rideid');
-    if (rideId === undefined) {
-        getOwnerLocation();
-    }
-    else {
+    //rideId = getUrlParameter('rideid');
+    rideId = localStorage.getItem("currentRideId");
+    localStorage.setItem("currentRideId", "");
+    if (rideId) {
         $.ajax({
             type: "GET",
             contentType: "application/json",
-            url: serviceurl+ "/getridedetails/" + userid + "/" + rideId,
+            url: serviceurl + "/getridedetails/" + userid + "/" + rideId,
             dataType: "json",
             success: function (data) {
                 currentRideObject = data[0];
                 getLocationByRideId(data[0]);
             }
         });
-
+        
+    }
+    else {
+        getOwnerLocation();
     }
 
     directionsService = new google.maps.DirectionsService();

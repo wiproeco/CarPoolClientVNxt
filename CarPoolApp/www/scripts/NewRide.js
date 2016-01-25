@@ -37,10 +37,10 @@ app.controller('newRideCtrl', function ($scope, $http, $window, $location) {
     });
     $("#btnSubmit").click(function () {
 
-        $(detailedWayPoints).each(function (index, waypoint) {            
+        $(detailedWayPoints).each(function (index, waypoint) {
             waypoint.boardingid = index + 1;
         });
-       
+
         ride.startlat = geoLocation.lat();
         ride.startlng = geoLocation.lng();
         ride.endlat = endLocation.lat();
@@ -119,7 +119,8 @@ function intilize() {
         //var userid = "011251e3-a03d-60ad-a981-973b0bc60253";
         localStorage.setItem("userid", userid);
 
-        rideId = getUrlParameter('rideid');
+   //     rideId = getUrlParameter('rideid');
+     rideId = localStorage.getItem("currentRideId");
         if (rideId === undefined) {
             getLocation();
         }
@@ -140,7 +141,7 @@ function intilize() {
                             userid: localStorage.getItem("userid"),
                             logdescription: status
                         }
-                        Errorlog($http,$scope, logdetails, true);
+                        Errorlog($http, $scope, logdetails, true);
                     }
                 });
             }
@@ -149,7 +150,7 @@ function intilize() {
                     userid: localStorage.getItem("userid"),
                     logdescription: e.message
                 }
-                Errorlog($http,$scope, logdetails, true);
+                Errorlog($http, $scope, logdetails, true);
             }
         }
 
