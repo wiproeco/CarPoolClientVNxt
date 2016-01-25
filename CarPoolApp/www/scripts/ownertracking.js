@@ -40,12 +40,14 @@ function intilizecurrentownerlocation() {
     var userid = window.localStorage.getItem("userid");
     //var userid = "5029ce11-7535-6c69-4108-f5f0a1cd387a";
     localStorage.setItem("userid", userid);
-
+    
     var address = "";
     var latitude = "";
     var longitude = "";
 
-    var ownerId = getUrlParameter('ownerId');
+    //var ownerId = getUrlParameter('ownerId');
+    var ownerId = window.localStorage.getItem("ownercartracking");
+    window.localStorage.setItem("ownercartracking","");
     if (ownerId === undefined) {
         //getLocation();
     }
