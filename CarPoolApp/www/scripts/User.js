@@ -254,6 +254,13 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
         }
 
         $scope.AddUser = function () {
+             $scope.gender = false;
+            $scope.EmailId = false;
+            $scope.UserNameerror = false;
+            $scope.termsandcond = false;
+            $scope.passworderror = false;
+            $scope.carnumber = false;
+            $scope.phoneno = false;
 
             $scope.txtmobile = false;
             $scope.txtemail = false;
@@ -393,6 +400,8 @@ app.controller('userCtrl', ['$scope', '$http', '$window', '$filter', 'Serviceurl
                     }
                     return false;
                 }
+            }else {
+                $scope.phoneno = true;
             }
         }
     }]);
