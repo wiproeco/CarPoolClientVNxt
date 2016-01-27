@@ -92,8 +92,8 @@ function getAllRideDetails($scope, $http, userid, Serviceurl) {
 }
 
 app.controller('myRideDetailsCtrl', function ($scope, $http, $window, Serviceurl, $location) {
-    $("#errormsg").hide();
-    $("#errordiv").hide();
+   $scope.datevalidation = false;
+    $scope.validation = false;
     $scope.IsError = false;
     var logdetails = {
         userID: "",
@@ -105,55 +105,84 @@ app.controller('myRideDetailsCtrl', function ($scope, $http, $window, Serviceurl
         $scope.rideId = getUrlParameter('rideid');
         var rideJSON = localStorage.getItem("currentRideObject");
         var rideObject = JSON.parse(rideJSON);
-        $scope.seats = rideObject.seatsavailable;
-        $scope.date.startdate = new Date(rideObject.startdatetime);
-        $scope.date.enddate = new Date(rideObject.enddatetime);
+        $scope.seats = rideObject.totalseats;
+        //$scope.seats = rideObject.seatsavailable;
+        //$scope.date.startdate = new Date(rideObject.startdatetime);
+        //$scope.date.enddate = new Date(rideObject.enddatetime);
     }
+    //$scope.date = {
+    //    startdate: new Date(),
+    //    enddate: new Date()
+    //}
+    var now = new Date();
     $scope.date = {
-        startdate: new Date(),
-        enddate: new Date()
-    }
-    $scope.updateRide = function () {
-        var rideJSON = localStorage.getItem("currentRideObject");
-        var rideObject = JSON.parse(rideJSON);
-        rideObject.seatsavailable = $scope.seats;
-        //rideObject.startdatetime = "2015-12-24"; //JSON.parse(JSON.stringify($scope.date.startdate));
-        // rideObject.enddatetime = "2015-12-24"; //JSON.parse(JSON.stringify($scope.date.enddate));
 
-        rideObject.startdatetime = formatDate();
-        rideObject.enddatetime = formatDate();
-        //console.log(rideObject.startdatetime);
-        $scope.iserror = true;
-        $scope.success = false;
-        //alert(JSON.stringify(rideObject));
-        try {
-            $http.post(Serviceurl + "/updateroute/", { userid: localStorage.getItem("userid"), ride: rideObject })
-           .success(function (response) {
-               //to update current location
-               $http.post(Serviceurl + "/updatecarlocation/", {
-                   userid: localStorage.getItem("userid"), currgeolocnaddress: rideObject.startpoint, currgeolocnlat: rideObject.startlat, currgeolocnlong: rideObject.startlng
-               });
-               /* $scope.rides = response[0].rides;  */
-               $scope.iserror = true;
-               $scope.success = true;
-               $location.path("/ownerrides");
-               //window.location.href = 'myrides.html';
-           })
-           .error(function (data, status) {
-               //$scope.iserror = false;
-               //$scope.success = false;
-               //alert('failed');
-               var userid = localStorage.getItem("userid");
-               logdetails.userID = userid;
-               logdetails.logdescription = status;
-               Errorlog($http,$scope, logdetails, true);
-           });
-        }
-        catch (e) {
-            var userid = localStorage.getItem("userid");
-            logdetails.userID = userid;
-            logdetails.logdescription = e.message;
-            Errorlog($http,$scope, logdetails, true);
+        startdate: new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes()),
+        enddate: new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes()),
+        //startdate: moment(),
+        //enddate: new Date()
+    }
+    
+   $scope.updateRide = function (date) {        
+        if ($scope.seats != "" && $scope.seats != undefined && $scope.date.startdate != "" && $scope.date.startdate != undefined && $scope.date.enddate != "" && $scope.date.enddate != undefined) {
+            $scope.validation = false;
+            var rideJSON = localStorage.getItem("currentRideObject");
+            var rideObject = JSON.parse(rideJSON);
+            // rideObject.seatsavailable = $scope.seats;
+            rideObject.seatsavailable = parseInt($scope.seats);
+            rideObject.totalseats = parseInt($scope.seats);
+            rideObject.startdatetime = moment(date.startdate).valueOf();  // Milliseconds
+            rideObject.startdate = moment(date.startdate).format('MM-DD-YYYY');
+            rideObject.starttime = moment(date.startdate).format('HH:mm');
+            rideObject.enddatetime = moment(date.enddate).valueOf();
+            rideObject.enddate = moment(date.enddate).format('MM-DD-YYYY');
+            rideObject.endtime = moment(date.enddate).format('HH:mm');
+            //rideObject.startdatetime = "2015-12-24"; //JSON.parse(JSON.stringify($scope.date.startdate));
+            // rideObject.enddatetime = "2015-12-24"; //JSON.parse(JSON.stringify($scope.date.enddate));            
+            //rideObject.startdatetime = formatDate();
+            //rideObject.enddatetime = formatDate();
+            //console.log(rideObject.startdatetime);
+            $scope.iserror = true;
+            $scope.success = false;
+            if (rideObject.startdatetime >= rideObject.enddatetime) {
+                $scope.datevalidation = true;
+
+            } else {
+                //alert(JSON.stringify(rideObject));
+                $scope.datevalidation = false;
+                try {
+                    $http.post(Serviceurl + "/updateroute/", { userid: localStorage.getItem("userid"), ride: rideObject })
+                   .success(function (response) {
+                       //to update current location
+                       $http.post(Serviceurl + "/updatecarlocation/", {
+                           userid: localStorage.getItem("userid"), currgeolocnaddress: rideObject.startpoint, currgeolocnlat: rideObject.startlat, currgeolocnlong: rideObject.startlng
+                       });
+                       /* $scope.rides = response[0].rides;  */
+                       $scope.iserror = true;
+                       $scope.success = true;
+                       $location.path("/ownerrides");
+                       //window.location.href = 'myrides.html';
+                   })
+                   .error(function (data, status) {
+                       //$scope.iserror = false;
+                       //$scope.success = false;
+                       //alert('failed');
+                       var userid = localStorage.getItem("userid");
+                       logdetails.userID = userid;
+                       logdetails.logdescription = status;
+                       Errorlog($http, $scope, logdetails, true);
+                   });
+                }
+                catch (e) {
+                    var userid = localStorage.getItem("userid");
+                    logdetails.userID = userid;
+                    logdetails.logdescription = e.message;
+                    Errorlog($http, $scope, logdetails, true);
+                }
+            }
+        } else {
+            $scope.validation = true;
+            return false;
         }
     }
 });
